@@ -1,5 +1,9 @@
 
-import axios from 'axios';
+//import axios from 'axios';
+import API from '~/lib/comsep/api';
+const api = API({
+//    base_url: process.env.COMSEP_API_URL
+});
 
 export const state = () => ({
     jwt: null,
@@ -53,10 +57,6 @@ export const getters = {
     },
     fullName: (state, getters) => {
         const data = getters.data;
-//        return data && data.name ?
-//            (data.name.fname ? data.name.fname + ' ' : '') + 
-//            (data.name.mname ? data.name.mname + ' ' : '') + 
-//            (data.name.lname ? data.name.lname + ' ' : '')
         return data ?
             (data.fname ? data.fname + ' ' : '') + 
             (data.mname ? data.mname + ' ' : '') + 
@@ -69,9 +69,6 @@ export const getters = {
     },
     initials: (state, getters) => {
         const data = getters.data;
-//        return data && data.name ?
-//            (data.name.fname ? data.name.fname[0] + '.' : '') + 
-//            (data.name.lname ? data.name.lname[0] + '.' : '')
         return data ?
             (data.fname ? data.fname[0] + '.' : '') + 
             (data.lname ? data.lname[0] + '.' : '')
@@ -80,6 +77,7 @@ export const getters = {
 }
 
 export const actions = {
+/*
     login(context, {email, password, rememberMe}) {
         return axios.post(process.env.COMSEP_API_URL+'/auth/login', {email, password}).then((response) => {
             const jwt = response.data ? response.data.token : null;
@@ -87,15 +85,28 @@ export const actions = {
             context.commit('log/addLog', {title: "login", data: response.data}, { root: true })
         });
     },
-//    register(context, {email, password, repeat_password, rememberMe}) {
-//        console.log("register()", {email, password, repeat_password, rememberMe});
-//        return axios.post(process.env.COMSEP_API_URL+'/auth/register', {email, password, repeat_password}).then((response) => {
     register(context, userData) {
         console.log("register()", userData);
         const {rememberMe} = userData;
         return axios.post(process.env.COMSEP_API_URL+'/auth/register', userData).then((response) => {
             const jwt = response.data ? response.data.token : null;
             console.log("jwt", jwt);
+            context.commit('setLoggedUserJWT', {jwt, rememberMe});
+            context.commit('log/addLog', {title: "register", data: response.data}, { root: true })
+        });
+    },
+*/
+    login(context, {email, password, rememberMe}) {
+        return api.user.login({email, password}, (response) => {
+            const jwt = response.data ? response.data.token : null;
+            context.commit('setLoggedUserJWT', {jwt, rememberMe});
+            context.commit('log/addLog', {title: "login", data: response.data}, { root: true })
+        });
+    },
+    register(context, userData) {
+        const {rememberMe} = userData;
+        return api.user.register(userData, (response) => {
+            const jwt = response.data ? response.data.token : null;
             context.commit('setLoggedUserJWT', {jwt, rememberMe});
             context.commit('log/addLog', {title: "register", data: response.data}, { root: true })
         });
@@ -123,21 +134,8 @@ export const actions = {
     },
 
 
-
     helloClientInit(context) {
 //        context.commit('loadFromStorageLoggedUserJWT')
     }
-/*
-    initOnClient(context, data) {
-        try {
-            if(!process.server && !!window) {
-                context.commit('loadFromStorageLoggedUserJWT')
-            }
-        }
-        catch(e) {
-            //console.log(e)
-        }
-    }
-*/
 
 }

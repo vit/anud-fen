@@ -30,32 +30,6 @@ export const mutations = {
 }
 
 export const getters = {
-/*
-    jwtHeader: state => {
-        return state.jwt? JSON.parse(atob(state.jwt.split('.')[0])) : null;
-    },
-    jwtData: state => {
-        return state.jwt? JSON.parse(atob(state.jwt.split('.')[1])) : null;
-    },
-    data: (state, getters) => {
-        return getters.jwtData ? getters.jwtData.user : null;
-    },
-    fullName: (state, getters) => {
-        const data = getters.data;
-        return data && data.name ?
-            (data.name.fname ? data.name.fname + ' ' : '') + 
-            (data.name.mname ? data.name.mname + ' ' : '') + 
-            (data.name.lname ? data.name.lname + ' ' : '')
-            : '';
-    },
-    initials: (state, getters) => {
-        const data = getters.data;
-        return data && data.name ?
-            (data.name.fname ? data.name.fname[0] + '.' : '') + 
-            (data.name.lname ? data.name.lname[0] + '.' : '')
-            : '';
-    }
-*/
 }
 
 export const actions = {

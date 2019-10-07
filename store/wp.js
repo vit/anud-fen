@@ -49,7 +49,7 @@ export const getters = {
     },
     getCurrentComsepContextName(state) {
 //        return state.page_data && state.page_data.path_meta ? state.page_data.path_meta.comsep_context_name : null;
-        return state.page_data && state.page_data.path_meta ? state.page_data.path_meta.comsep_context_name : 123;
+        return state.page_data && state.page_data.path_meta ? state.page_data.path_meta.comsep_context_name : null;
     },
     getCurrentComsepContextPath(state) {
         return state.page_data && state.page_data.path_meta ? state.page_data.path_meta.comsep_context_path : null;
