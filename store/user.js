@@ -1,13 +1,9 @@
 
-//import axios from 'axios';
 import API from '~/lib/comsep/api';
-const api = API({
-//    base_url: process.env.COMSEP_API_URL
-});
+const api = API();
 
 export const state = () => ({
     jwt: null,
-//    jwt: (process.browser && localStorage && localStorage.getItem) ? localStorage.getItem("jwt-token") : null,
     serverLog: []
 })
 
@@ -22,27 +18,17 @@ export const mutations = {
     },
 
     setLoggedUserJWT (state, {jwt, rememberMe}) {
-        //localStorage.removeItem("jwt-token");
         state.jwt = !!jwt ? jwt : null;
         if( Cookie ) {
             Cookie.remove('jwt-token');
             if( jwt && rememberMe )
-                //localStorage.setItem("jwt-token", jwt);
                 Cookie.set('jwt-token', jwt)
         }
     },
     dropLoggedUserJWT (state) {
         state.jwt = null;
-        //localStorage.removeItem("jwt-token");
         Cookie.remove('jwt-token');
     },
-/*
-    loadFromStorageLoggedUserJWT (state) {
-        const jwt = localStorage.getItem("jwt-token");
-        if(jwt)
-            state.jwt = jwt;
-    },
-*/
 }
 
 export const getters = {
@@ -77,25 +63,6 @@ export const getters = {
 }
 
 export const actions = {
-/*
-    login(context, {email, password, rememberMe}) {
-        return axios.post(process.env.COMSEP_API_URL+'/auth/login', {email, password}).then((response) => {
-            const jwt = response.data ? response.data.token : null;
-            context.commit('setLoggedUserJWT', {jwt, rememberMe});
-            context.commit('log/addLog', {title: "login", data: response.data}, { root: true })
-        });
-    },
-    register(context, userData) {
-        console.log("register()", userData);
-        const {rememberMe} = userData;
-        return axios.post(process.env.COMSEP_API_URL+'/auth/register', userData).then((response) => {
-            const jwt = response.data ? response.data.token : null;
-            console.log("jwt", jwt);
-            context.commit('setLoggedUserJWT', {jwt, rememberMe});
-            context.commit('log/addLog', {title: "register", data: response.data}, { root: true })
-        });
-    },
-*/
     login(context, {email, password, rememberMe}) {
         return api.user.login({email, password}, (response) => {
             const jwt = response.data ? response.data.token : null;
@@ -115,15 +82,12 @@ export const actions = {
         context.commit('dropLoggedUserJWT')
     },
 
-
-
     async loadInitialData({ commit }, { req }) {
         let jwt = null
         commit('addServerLog', "cookie: "+req.headers.cookie);
         if (req.headers.cookie) {
             const parsed = cookieparser.parse(req.headers.cookie)
             try {
-//                jwt = JSON.parse( parsed['jwt-token'] )
                 jwt = parsed['jwt-token'];
             } catch (err) {
                 // No valid cookie found
@@ -135,7 +99,6 @@ export const actions = {
 
 
     helloClientInit(context) {
-//        context.commit('loadFromStorageLoggedUserJWT')
     }
 
 }

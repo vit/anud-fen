@@ -40,14 +40,10 @@ export const actions = {
             const data = response.data;
             commit('setCurrentContext', data.reply);
             if( state.currentContext && state.currentContext.workflow && state.currentContext.workflow.app=='__LIBRARY__' ) {
-//            if( data.reply && data.reply.workflow && data.reply.workflow.app=='__LIBRARY__' ) {
                 const id = route.query.id;
-//                const id = '5d87f28caa2d242505585229';
-//                await axios.get(process.env.COMSEP_API_URL+'/wf/getLibItem', {id: null}).then((response) => {
                 await axios.get(process.env.COMSEP_API_URL+'/wf/getLibItem?id='+(id ? id : '')).then((response) => {
                     const data = response.data;
                     commit('setCurrentLibItem', data.reply);
-//                    commit('setCurrentLibItem', {qqq: 'www'});
                 });
             }
         });
@@ -55,7 +51,6 @@ export const actions = {
 
 
     getWfData(context, {id, rememberMe}) {
-//        return axios.post('https://nc-beff.bigbrowser.ru/wf/get', {id}).then((response) => {
         return axios.post(process.env.COMSEP_API_URL+'/wf/get', {id}).then((response) => {
             const data = response.data;
             context.commit('setCurrentWfData', data);
@@ -63,7 +58,6 @@ export const actions = {
     },
 
     sendEvent(context, {id, role, name, payload}) {
-//        return axios.post('https://nc-beff.bigbrowser.ru/wf/send', {
         return axios.post(process.env.COMSEP_API_URL+'/wf/send', {
             id,
             role,
@@ -79,7 +73,6 @@ export const actions = {
     },
 
     sendPing(context, {id, payload}) {
-//        return axios.post('https://nc-beff.bigbrowser.ru/wf/send', {
         return axios.post(process.env.COMSEP_API_URL+'/wf/send', {
             id,
             role: 'admin',
@@ -95,7 +88,6 @@ export const actions = {
     },
 
     getList(context, {}) {
-//        return axios.post('https://nc-beff.bigbrowser.ru/wf/getList', {}).then((response) => {
         return axios.post(process.env.COMSEP_API_URL+'/wf/getList', {}).then((response) => {
             const data = response.data;
             context.commit('setWfList', data.reply);
@@ -103,7 +95,6 @@ export const actions = {
     },
 
     getSchema(context, {id}) {
-//        return axios.post('https://nc-beff.bigbrowser.ru/wf/getSchema', {id}).then((response) => {
         return axios.post(process.env.COMSEP_API_URL+'/wf/getSchema', {id}).then((response) => {
             const data = response.data;
             context.commit('setWfSchema', data.reply);
