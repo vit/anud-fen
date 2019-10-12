@@ -21,7 +21,7 @@
                 </nuxt-link>
             </li>
             <li class="menu-item">
-                <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'author/new'">
+                <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'author/new?event=create_new_submission'">
                     Новая статья
                 </nuxt-link>
             </li>

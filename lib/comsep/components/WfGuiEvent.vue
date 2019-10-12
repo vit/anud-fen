@@ -1,14 +1,17 @@
 <template>
     <div style="border: thin solid green;">
-        <h1>Workflow GUI</h1>
-        <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
+        <h1>Workflow Prepare Event</h1>
+
+            <EditForm :docMeta="docMeta" ></EditForm>
+
+        <!--div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
 
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
                 <h3>What can I do now</h3>
                 <ul>
-                    <li v-for="[k,v] in Object.entries(qa.result.events)" :key="k">
+                    <li v-for="[event_name, v] in Object.entries(qa.result.events)" :key="event_name">
                         <span v-if="v.available">
-                            <nuxt-link :to="'author/new?event='+k">{{k}}</nuxt-link>
+                            <nuxt-link :to="external_resources.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
                         </span>
                         <span v-else>
                             <strike>{{k}}</strike>
@@ -17,37 +20,56 @@
                 </ul>
             </div>
 
-        </div>
-        
-        <!--p>wf_id: {{wf_id}}</p>
-        <p>user_id: {{user_id}}</p>
-        <p>user_role: {{user_role}}</p-->
-        <!--p>jwt_token: {{jwt_token}}</p-->
+        </div-->
     </div>
 </template>
 
 <script>
 
-import API from '~/lib/comsep/api'
+//import API from '~/lib/comsep/api'
+import API from '../api'
 const api = API();
+
+import EditForm from '~/components/comsep/common/EditForm'
+
 
 export default {
     components: {
+        EditForm,
     },
     props: [
         'jwt_token',
         'wf_id',
         'user_id',
         'user_role',
+        'external_resources'
     ],
     data () {
         return {
-            query_answer: []
+//            query_answer: []
+            schema: null,
+            formData: {
+            },
         };
     },
     computed: {
+        docMeta() {
+            const contextId = this.$store.state.workflow.currentContext.id;
+            const ownerId = this.$store.getters['user/id'];
+            return {
+            // who writes
+                ownerId,
+                roleName: 'user',
+            // where writes
+                contextId,
+                eventName: 'new_submission',
+            // what writes
+                formName: 'gn_paper'
+            };
+        },
     },
     mounted() {
+/*
         api.workflow.query({
             jwt_token: this.jwt_token,
             meta: {
@@ -63,6 +85,7 @@ export default {
 //            console.log("mounted()/getWorkflow", answer);
             this.query_answer = answer.reply || [];
         })
+*/
     }
 }
 </script>

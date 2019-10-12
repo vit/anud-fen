@@ -1,5 +1,6 @@
 <template>
     <div cclass="width-container">
+
         <h2>Edit Form</h2>
 {{docMeta}}
         <FormCard
@@ -37,7 +38,7 @@ export default {
             formData: {
 //                title: '',
 //                abstract: '',
-            }
+            },
         };
     },
 
@@ -63,7 +64,7 @@ export default {
                   }
               ],
             }
-        }
+        },
     },
     methods: {
         context() {
