@@ -124,21 +124,13 @@ export default {
 
 <style lang="scss" scoped>
 
-//@import "~assets/variables";
-
-
-//.width-container {
-//    max-width: 30em;
-//}
 .form-container {
     max-width: 30em;
     margin: auto;
 }
 
 .c-card {
-//    box-shadow: 1px 1px 5px black;
     border: 1px solid;
-//    color: $primary;
     .c-card-header {
         padding: 10px;
         .c-card-header-title {

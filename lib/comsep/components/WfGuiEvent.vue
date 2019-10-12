@@ -2,7 +2,7 @@
     <div style="border: thin solid green;">
         <h1>Workflow Prepare Event</h1>
 
-            <EditForm :docMeta="docMeta" ></EditForm>
+            <EditEventForm :docMeta="docMeta" ></EditEventForm>
 
         <!--div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
 
@@ -30,12 +30,12 @@
 import API from '../api'
 const api = API();
 
-import EditForm from '~/components/comsep/common/EditForm'
-
+//import EditForm from '~/components/comsep/common/EditForm'
+import EditEventForm from './EditEventForm'
 
 export default {
     components: {
-        EditForm,
+        EditEventForm,
     },
     props: [
         'jwt_token',
@@ -54,8 +54,10 @@ export default {
     },
     computed: {
         docMeta() {
-            const contextId = this.$store.state.workflow.currentContext.id;
-            const ownerId = this.$store.getters['user/id'];
+//            const contextId = this.$store.state.workflow.currentContext.id;
+//            const ownerId = this.$store.getters['user/id'];
+            const contextId = this.wf_id;
+            const ownerId = this.user_id;
             return {
             // who writes
                 ownerId,

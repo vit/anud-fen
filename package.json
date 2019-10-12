@@ -20,6 +20,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@nuxtjs/pwa": "^3.0.0-beta.19",
     "atob": "^2.1.2",
+    "autosize": "^4.0.2",
     "axios": "^0.19.0",
     "babel-runtime": "^6.26.0",
     "cookieparser": "^0.1.0",
@@ -31,6 +32,7 @@
     "nuxt-buefy": "^0.3.8",
     "nuxt-fontawesome": "^0.4.0",
     "sass-loader": "^7.1.0",
+    "vue-autosize": "^1.0.2",
     "vue-pdf": "^4.0.7"
   },
   "devDependencies": {
