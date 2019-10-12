@@ -71,6 +71,10 @@ router: {
     /*
     ** Run ESLint on save
     */
+    vendor: [
+      'axios',
+      'autosize'
+    ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
