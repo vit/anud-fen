@@ -1,8 +1,11 @@
 <template>
-    <div style="border: thin solid green;">
+    <div sstyle="border: thin solid green;">
         <h1>Workflow Prepare Event</h1>
 
-            <EditEventForm :docMeta="docMeta" ></EditEventForm>
+            <EditEventForm
+                :docMeta="docMeta"
+                :jwt_token="jwt_token"
+            ></EditEventForm>
 
         <!--div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
 
@@ -27,8 +30,9 @@
 <script>
 
 //import API from '~/lib/comsep/api'
-import API from '../api'
-const api = API();
+
+//import API from '../api'
+//const api = API();
 
 //import EditForm from '~/components/comsep/common/EditForm'
 import EditEventForm from './EditEventForm'

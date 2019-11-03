@@ -37,14 +37,21 @@
                         class="button is-primary c-card-footer-item iis-outlined"
                         @click="saveForm"
                     >
-                        Сохранить
+                        Сохранить черновик
+                    </button>
+                    <button
+                        type="button"
+                        class="button is-danger c-card-footer-item iis-outlined"
+                        @click="deleteForm"
+                    >
+                        Удалить черновик
                     </button>
                     <button
                         type="button"
                         class="button is-success c-card-footer-item iis-outlined"
                         @click="submitForm"
                     >
-                        Послать
+                        Подать документ
                     </button>
 
                     <!--hr>
@@ -68,12 +75,21 @@
 import axios from 'axios';
 import FormField from './form/FormField'
 
+import API from '../api'
+const api = API();
+
+
 export default {
     components: {
         FormField
     },
     props: [
-        'docMeta'
+        'docMeta',
+        'jwt_token',
+//        'wf_id',
+//        'user_id',
+//        'user_role',
+//        'external_resources'
     ],
     data () {
         return {
@@ -166,6 +182,40 @@ export default {
             axios.post(process.env.COMSEP_API_URL+'/wf/saveDoc', {docMeta, formData}).then((response) => {
                 console.log("saveForm()/response", response);
             })
+        },
+        deleteForm() {
+            console.log("deleteForm()/clicked");
+            console.log("deleteForm()/docMeta", this.docMeta);
+            console.log("deleteForm()/docMeta.contextId", this.docMeta.contextId);
+            api.rpc({
+                jwt_token: this.jwt_token,
+                model: 'EventForm',
+                proc: 'drop_my_event_form',
+                args: {rpc_data: 'rpc data'}
+            }, (answer) => {
+                console.log("deleteForm()", answer);
+            })
+            /*
+            console.log("deleteForm()/clicked");
+            console.log("deleteForm()/docMeta", this.docMeta);
+            console.log("deleteForm()/docMeta.contextId", this.docMeta.contextId);
+            api.workflow.query({
+                jwt_token: this.jwt_token,
+                meta: {
+                    wf_id: this.docMeta.contextId,
+    //                user_id: this.user_id,
+                    user_role: this.docMeta.roleName
+                },
+                event: null,
+                query: [
+                    '_what_can_i_do'
+                ],
+            }, (answer) => {
+                console.log("deleteForm()/_what_can_i_do", answer);
+//                this.query_answer = answer.reply || [];
+            })
+            */
+
         },
         submitForm() {
             //console.log("submitForm()", this.formData);
