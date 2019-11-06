@@ -6,9 +6,13 @@
             v-if="$store.state.user.jwt"
             :wf_id="contextId"
             :user_id="myId"
-            user_role="user"
+            role_name="user"
             :external_resources="external_resources"
             :jwt_token="$store.state.user.jwt"
+
+            event_name='create_new_submission'
+            form_name="gn_paper"
+
         ></WfGuiEvent>
             <div v-else>
                 Вы не можете работать с этой формой, поскольку не вошли в систему

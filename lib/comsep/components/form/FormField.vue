@@ -25,7 +25,7 @@
                             :ref="field.type"
                             autofocus
                             rrequired
-                            contenteditable
+                            ccontenteditable
                             v-my-autosize
                         >
                         </b-input>

@@ -85,11 +85,8 @@ export default {
     },
     props: [
         'docMeta',
+        'form_meta',
         'jwt_token',
-//        'wf_id',
-//        'user_id',
-//        'user_role',
-//        'external_resources'
     ],
     data () {
         return {
@@ -97,43 +94,10 @@ export default {
 //                title: '',
 //                abstract: '',
             },
-/*
-              buttons: [
-                {
-                    name: 'save',
-                    type: 'button',
-                    'class': 'is-primary c-card-footer-item iis-outlined',
-                    label: 'Сохранить',
-                    click: function() {
-                        console.log("click() 1");
-                        const {docMeta, formData} = this;
-                        axios.post(process.env.COMSEP_API_URL+'/wf/saveDoc', {docMeta, formData}).then((response) => {
-                            //this.schema = response && response.data ? response.data.reply : null;
-                            console.log("onSubmit()/response", response);
-                        })
-                    }
-                },
-                {
-                    name: 'submit',
-                    type: 'button',
-                    'class': 'is-success c-card-footer-item iis-outlined',
-                    label: 'Подать',
-                    click() {
-                        console.log("click() 2");
-                    }
-                }
-              ],
-*/
         };
     },
 
     computed: {
-//        buttons() {
-//            return this.formDescr ? this.formDescr.buttons : [];
-//        },
-//        links() {
-//            return this.formDescr ? this.formDescr.links : [];
-//        },
         formTitle() {
 //            const form = this.form(this.formName);
             const form = this.form;
@@ -147,17 +111,6 @@ export default {
         formName() {
             return this.docMeta ? this.docMeta.formName : null;
         },
-/*
-        formDescr() {
-            return {
-//              title: this.formTitle(),
-              onSubmit: this.onSubmit, 
-//              data: this.formData,
-//              fields: this.fields(),
-
-            }
-        },
-*/
         context() {
             return this.$store.state.workflow.currentContext;
         },
@@ -230,6 +183,16 @@ export default {
 //            console.log("mounted()/getDoc", response);
         })
 //*/
+
+        api.rpc({
+            jwt_token: this.jwt_token,
+            model: 'EventForm',
+            proc: 'get_my_event_form',
+            args: {form_meta: this.form_meta}
+        }, (data) => {
+            console.log("get_my_event_form()", data);
+        })
+
     },
     directives: {
 /*
