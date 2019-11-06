@@ -32,14 +32,15 @@
                         {{button.label}}
                     </button-->
 
-                    <button
+                    <!--button
                         type="button"
                         class="button is-primary c-card-footer-item iis-outlined"
                         @click="saveForm"
                     >
                         Сохранить черновик
-                    </button>
+                    </button-->
                     <button
+                        :disabled="!isSaved"
                         type="button"
                         class="button is-danger c-card-footer-item iis-outlined"
                         @click="deleteForm"
@@ -47,21 +48,15 @@
                         Удалить черновик
                     </button>
                     <button
+                        :disabled="!isSaved"
                         type="button"
                         class="button is-success c-card-footer-item iis-outlined"
                         @click="submitForm"
                     >
                         Подать документ
                     </button>
-
-                    <!--hr>
-                    <nuxt-link
-                        v-for="link of links"
-                        :key="link.url"
-                        :to="link.url"
-                    >
-                        {{link.label}}
-                    </nuxt-link-->
+                    <span v-if="isSaved">The draft is saved</span>
+                    <span v-if="waitSaving">Saving the draft...</span>
                 </footer>
 
             </div>
@@ -94,7 +89,24 @@ export default {
 //                title: '',
 //                abstract: '',
             },
+            formDataSaved: {
+            },
+            waitTimer: false,
+            waitSaving: false,
+//            isSaved: false
+            isSaved: true
         };
+    },
+
+    watch: {
+        'formData': {
+            handler: function(v) {
+                console.log("watch -- change");
+                this.saveDelayed();
+//                return this.clearAlertBox();
+            },
+            deep: true
+        }
     },
 
     computed: {
@@ -107,6 +119,9 @@ export default {
 //            const form = this.form(this.formName);
             const form = this.form;
             return form && form.fields ? form.fields : [];
+        },
+        fieldNames() {
+            return this.fields.map(f => f.name);
         },
         formName() {
             return this.docMeta ? this.docMeta.formName : null;
@@ -121,20 +136,62 @@ export default {
         },
     },
     methods: {
+        saveDelayed() {
+            this.isSaved = false;
+            if (!this.waitTimer) {
+                this.waitTimer = true;
+                const that = this;
+                setTimeout(function () {
+                    that.waitTimer = false;
+                    that.saveChangedFields();
+                }, 1000);
+            }
+        },
+        saveChangedFields() {
+            let hasDifferences = false;
+            this.fieldNames.forEach(fn => {
+                console.log("EQ?", this.formDataSaved[fn], this.formData[fn]);
+                if( this.formDataSaved[fn] !== this.formData[fn] )
+                    hasDifferences = true;
+            });
+
+            console.log("hasDifferences: ", hasDifferences);
+///*
+            if(hasDifferences) {
+                this.waitSaving = true;
+                api.rpc({
+                    jwt_token: this.jwt_token,
+                    model: 'EventForm',
+                    proc: 'set_my_event_form_fields',
+                    args: {form_meta: this.form_meta, form_fields: this.formData}
+                }, (data) => {
+                    console.log("set_my_event_form_fields()", data);
+                    this.formDataSaved = this.copyFieldsFromHash(data.answer.form_fields);
+                    this.isSaved = true;
+                    this.waitSaving = false;
+                })
+            } else {
+                this.isSaved = true;
+            }
+//*/
+        },
+        copyFieldsFromHash(h) {
+            const rez = {};
+            this.fieldNames.forEach(fn => {
+                rez[fn] = h[fn];
+            });
+            return rez;
+        },
         onSubmit() {
-//            console.log("onSubmit()", this.formData);
-//            const {docMeta, formData} = this;
-//            axios.post(process.env.COMSEP_API_URL+'/wf/saveDoc', {docMeta, formData}).then((response) => {
-//                //this.schema = response && response.data ? response.data.reply : null;
-//                console.log("onSubmit()/response", response);
-//            })
         },
         saveForm() {
+/*
             console.log("saveForm()", this.formData);
             const {docMeta, formData} = this;
             axios.post(process.env.COMSEP_API_URL+'/wf/saveDoc', {docMeta, formData}).then((response) => {
                 console.log("saveForm()/response", response);
             })
+*/
         },
         deleteForm() {
             console.log("deleteForm()/clicked");
@@ -148,41 +205,12 @@ export default {
             }, (answer) => {
                 console.log("deleteForm()", answer);
             })
-            /*
-            console.log("deleteForm()/clicked");
-            console.log("deleteForm()/docMeta", this.docMeta);
-            console.log("deleteForm()/docMeta.contextId", this.docMeta.contextId);
-            api.workflow.query({
-                jwt_token: this.jwt_token,
-                meta: {
-                    wf_id: this.docMeta.contextId,
-    //                user_id: this.user_id,
-                    user_role: this.docMeta.roleName
-                },
-                event: null,
-                query: [
-                    '_what_can_i_do'
-                ],
-            }, (answer) => {
-                console.log("deleteForm()/_what_can_i_do", answer);
-//                this.query_answer = answer.reply || [];
-            })
-            */
-
         },
         submitForm() {
             //console.log("submitForm()", this.formData);
         },
     },
     mounted() {
-///*
-        const {docMeta} = this;
-        axios.post(process.env.COMSEP_API_URL+'/wf/getDoc', {docMeta}).then((response) => {
-            if(response && response.data && response.data.reply && response.data.reply.doc)
-                this.formData = response.data.reply.doc;
-//            console.log("mounted()/getDoc", response);
-        })
-//*/
 
         api.rpc({
             jwt_token: this.jwt_token,
@@ -191,6 +219,12 @@ export default {
             args: {form_meta: this.form_meta}
         }, (data) => {
             console.log("get_my_event_form()", data);
+            console.log("data.answer.form_fields", data.answer.form_fields);
+            console.log("data.answer.form_fields copied", this.copyFieldsFromHash(data.answer.form_fields) );
+//            this.formDataSaved = data.answer.form_fields;
+//            this.formData = data.answer.form_fields;
+            this.formDataSaved = this.copyFieldsFromHash(data.answer.form_fields);
+            this.formData = this.copyFieldsFromHash(data.answer.form_fields);
         })
 
     },
