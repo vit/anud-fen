@@ -21,24 +21,6 @@
                 </section>
 
                 <footer class="c-card-footer">
-                    <!--button
-                        v-for="button of buttons"
-                        :key="button.name"
-                        :type="button.type"
-                        ccclass="button is-primary c-card-footer-item is-outlined"
-                        :class="'button ' + (button.class || '')"
-                        @click="button.click"
-                    >
-                        {{button.label}}
-                    </button-->
-
-                    <!--button
-                        type="button"
-                        class="button is-primary c-card-footer-item iis-outlined"
-                        @click="saveForm"
-                    >
-                        Сохранить черновик
-                    </button-->
                     <button
                         :disabled="!isSaved"
                         type="button"
@@ -86,8 +68,6 @@ export default {
     data () {
         return {
             formData: {
-//                title: '',
-//                abstract: '',
             },
             formDataSaved: {
             },
@@ -103,7 +83,6 @@ export default {
             handler: function(v) {
                 console.log("watch -- change");
                 this.saveDelayed();
-//                return this.clearAlertBox();
             },
             deep: true
         }
@@ -156,24 +135,24 @@ export default {
             });
 
             console.log("hasDifferences: ", hasDifferences);
-///*
+
             if(hasDifferences) {
                 this.waitSaving = true;
                 api.rpc({
                     jwt_token: this.jwt_token,
                     model: 'EventForm',
-                    proc: 'set_my_event_form_fields',
+                    proc: 'save_my_event_form_fields',
                     args: {form_meta: this.form_meta, form_fields: this.formData}
                 }, (data) => {
-                    console.log("set_my_event_form_fields()", data);
-                    this.formDataSaved = this.copyFieldsFromHash(data.answer.form_fields);
+                    console.log("save_my_event_form_fields()", data);
+                    this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
                     this.isSaved = true;
                     this.waitSaving = false;
                 })
             } else {
                 this.isSaved = true;
             }
-//*/
+
         },
         copyFieldsFromHash(h) {
             const rez = {};
@@ -185,25 +164,20 @@ export default {
         onSubmit() {
         },
         saveForm() {
-/*
-            console.log("saveForm()", this.formData);
-            const {docMeta, formData} = this;
-            axios.post(process.env.COMSEP_API_URL+'/wf/saveDoc', {docMeta, formData}).then((response) => {
-                console.log("saveForm()/response", response);
-            })
-*/
         },
         deleteForm() {
             console.log("deleteForm()/clicked");
-            console.log("deleteForm()/docMeta", this.docMeta);
-            console.log("deleteForm()/docMeta.contextId", this.docMeta.contextId);
             api.rpc({
                 jwt_token: this.jwt_token,
                 model: 'EventForm',
                 proc: 'drop_my_event_form',
-                args: {rpc_data: 'rpc data'}
-            }, (answer) => {
-                console.log("deleteForm()", answer);
+                args: {form_meta: this.form_meta}
+            }, (data) => {
+                console.log("deleteForm()/data:", data);
+                if( data && !data.error) {
+                    this.formDataSaved = {};
+                    this.formData = {};
+                }
             })
         },
         submitForm() {
@@ -219,12 +193,8 @@ export default {
             args: {form_meta: this.form_meta}
         }, (data) => {
             console.log("get_my_event_form()", data);
-            console.log("data.answer.form_fields", data.answer.form_fields);
-            console.log("data.answer.form_fields copied", this.copyFieldsFromHash(data.answer.form_fields) );
-//            this.formDataSaved = data.answer.form_fields;
-//            this.formData = data.answer.form_fields;
-            this.formDataSaved = this.copyFieldsFromHash(data.answer.form_fields);
-            this.formData = this.copyFieldsFromHash(data.answer.form_fields);
+            this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
+            this.formData = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
         })
 
     },
