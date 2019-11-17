@@ -43,7 +43,8 @@ export default {
     ],
     data () {
         return {
-            query_answer: []
+            query_answer: [],
+            my_drafts: []
         };
     },
     computed: {
@@ -65,6 +66,26 @@ export default {
 //            console.log("mounted()/getWorkflow", answer);
             this.query_answer = answer.reply || [];
         })
+
+        api.rpc({
+            jwt_token: this.jwt_token,
+            model: 'EventForm',
+            proc: 'list_my_event_forms',
+            args: {form_meta: {
+                    role_name: this.user_role,
+                // where writes
+                    workflow_id: this.wf_id,
+            //        event_name: this.event_name,
+                // what writes
+            //        form_name: this.form_name
+            }}
+        }, (data) => {
+            console.log("list_my_event_forms()", data);
+            //this.my_drafts = data.answer;
+        //    this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
+        //    this.formData = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
+        })
+
     }
 }
 </script>
