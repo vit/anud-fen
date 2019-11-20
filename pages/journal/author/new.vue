@@ -18,20 +18,13 @@
                 Вы не можете работать с этой формой, поскольку не вошли в систему
             </div>
 
-
-        <h1>Journal Author New Submission</h1>
-            <!--EditForm v-if="!!$store.getters['user/id']" :docMeta="docMeta" ></EditForm>
-            <div v-else>
-                Вы не можете работать с этой формой, поскольку не вошли в систему
-            </div-->
+        <!--h1>Journal Author New Submission</h1-->
 
     </div>
     <!--/Page-->
 </template>
 
 <script>
-//import Page from '~/components/Page'
-//import EditForm from '~/components/comsep/common/EditForm'
 
 import WfGuiEvent from '~/lib/comsep/components/WfGuiEvent'
 

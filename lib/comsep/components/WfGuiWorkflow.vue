@@ -64,11 +64,12 @@ export default {
             },
             event: null,
             query: [
+                '_workflow_data',
                 '_what_can_i_do',
                 '_my_workflows'
             ],
         }, (answer) => {
-//            console.log("mounted()/getWorkflow", answer);
+            console.log("mounted()/getWorkflow", answer);
             this.query_answer = answer.reply || [];
         })
 

@@ -182,6 +182,16 @@ export default {
         },
         submitForm() {
             //console.log("submitForm()", this.formData);
+            api.rpc({
+                jwt_token: this.jwt_token,
+                model: 'Workflow',
+                proc: 'send_event',
+                args: {form_meta: this.form_meta}
+            }, (data) => {
+                console.log("submitForm()/data:", data);
+                if( data && !data.error) {
+                }
+            })
         },
     },
     mounted() {

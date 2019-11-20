@@ -69,23 +69,6 @@ export default {
         },
     },
     mounted() {
-/*
-        api.workflow.query({
-            jwt_token: this.jwt_token,
-            meta: {
-                wf_id: this.wf_id,
-//                user_id: this.user_id,
-                user_role: this.user_role
-            },
-            event: null,
-            query: [
-                '_what_can_i_do'
-            ],
-        }, (answer) => {
-//            console.log("mounted()/getWorkflow", answer);
-            this.query_answer = answer.reply || [];
-        })
-*/
     }
 }
 </script>
