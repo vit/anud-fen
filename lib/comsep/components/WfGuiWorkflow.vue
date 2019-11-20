@@ -9,6 +9,10 @@
                     <li v-for="[event_name, v] in Object.entries(qa.result.events)" :key="event_name">
                         <span v-if="v.available">
                             <nuxt-link :to="external_resources.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
+                            <template v-if="my_drafts_by_event[event_name]">
+                                <br/>
+                                <span>Has a draft: {{my_drafts_by_event[event_name].form_fields}}</span>
+                            </template>
                         </span>
                         <span v-else>
                             <strike>{{k}}</strike>
@@ -44,7 +48,8 @@ export default {
     data () {
         return {
             query_answer: [],
-            my_drafts: []
+            my_drafts: [],
+            my_drafts_by_event: []
         };
     },
     computed: {
@@ -81,7 +86,14 @@ export default {
             }}
         }, (data) => {
             console.log("list_my_event_forms()", data);
-            //this.my_drafts = data.answer;
+            this.my_drafts = data && data.answer ? data.answer : [];
+            this.my_drafts_by_event = this.my_drafts.reduce(
+                (acc, item)=>{
+                    acc[item.form_key.event_name] = item;
+                    return acc;
+                },
+                {}
+            );
         //    this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
         //    this.formData = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
         })
