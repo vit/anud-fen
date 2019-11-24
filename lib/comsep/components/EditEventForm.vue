@@ -182,10 +182,12 @@ export default {
         },
         submitForm() {
             //console.log("submitForm()", this.formData);
+//            const {event_name, role_name, workflow_id} = this.form_meta;
             api.rpc({
                 jwt_token: this.jwt_token,
                 model: 'Workflow',
                 proc: 'send_event',
+//                args: {form_meta: this.form_meta}
                 args: {form_meta: this.form_meta}
             }, (data) => {
                 console.log("submitForm()/data:", data);

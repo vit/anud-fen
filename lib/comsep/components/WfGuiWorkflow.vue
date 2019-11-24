@@ -3,6 +3,11 @@
         <h1>Workflow GUI</h1>
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
 
+            <div v-if="qa.name=='_workflow_data'" style="border: thin solid red; padding: 10px;">
+                <h3>This workflow data</h3>
+                {{qa}}
+            </div>
+
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
                 <h3>What can I do now</h3>
                 <ul>
