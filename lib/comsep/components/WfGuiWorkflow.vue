@@ -5,7 +5,7 @@
 
             <div v-if="qa.name=='_workflow_data'" style="border: thin solid red; padding: 10px;">
                 <h3>This workflow data</h3>
-                {{qa}}
+                {{qa.result}}
             </div>
 
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
