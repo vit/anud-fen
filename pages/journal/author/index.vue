@@ -35,7 +35,7 @@ export default {
                     return 'author/new?event='+event_name;
                 },
                 createWorkflowUrl({wf_id}) {
-                    return 'author/wf?wf_id='+wf_id;
+                    return 'author/wf?wf='+wf_id;
                 }
             }
         };

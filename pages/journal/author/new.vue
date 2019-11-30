@@ -10,7 +10,8 @@
             :external_resources="external_resources"
             :jwt_token="$store.state.user.jwt"
 
-            event_name='create_new_submission'
+            :event_name='event_name'
+            q_event_name='create_new_submission'
             form_name="gn_paper"
 
         ></WfGuiEvent>
@@ -48,7 +49,8 @@ export default {
     },
     computed: {
         contextId() { return this.$store.state.workflow.currentContext.id; },
-        myId() { return this.$store.getters['user/id']; }
+        myId() { return this.$store.getters['user/id']; },
+        event_name() { return this.$route.query.event }
     },
 }
 </script>

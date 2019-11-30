@@ -4,6 +4,11 @@
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
 
             <div v-if="qa.name=='_workflow_data'" style="border: thin solid red; padding: 10px;">
+                <b>This workflow ancestors</b>:
+                    <span v-for="id in (qa.result.ancestors || [])" :key="id">
+                        <nuxt-link :to="external_resources.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
+                    </span>
+
                 <h3>This workflow data</h3>
                 {{qa.result}}
             </div>
@@ -11,7 +16,7 @@
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
                 <h3>What can I do now</h3>
                 <ul>
-                    <li v-for="[event_name, v] in Object.entries(qa.result.events)" :key="event_name">
+                    <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name">
                         <span v-if="v.available">
                             <nuxt-link :to="external_resources.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
                             <template v-if="my_drafts_by_event[event_name]">
@@ -70,7 +75,64 @@ export default {
     },
     computed: {
     },
+    methods: {
+        loadData() {
+            api.workflow.query({
+                jwt_token: this.jwt_token,
+                meta: {
+                    wf_id: this.wf_id,
+    //                user_id: this.user_id,
+                    user_role: this.user_role
+                },
+                event: null,
+                query: [
+                    '_workflow_data',
+                    '_what_can_i_do',
+                    '_my_workflows'
+                ],
+            }, (answer) => {
+                console.log("mounted()/getWorkflow", answer);
+                this.query_answer = answer.reply || [];
+            })
+    
+            api.rpc({
+                jwt_token: this.jwt_token,
+                model: 'EventForm',
+                proc: 'list_my_event_forms',
+                args: {form_meta: {
+                        role_name: this.user_role,
+                    // where writes
+                        workflow_id: this.wf_id,
+                //        event_name: this.event_name,
+                    // what writes
+                //        form_name: this.form_name
+                }}
+            }, (data) => {
+                console.log("list_my_event_forms()", data);
+                this.my_drafts = data && data.answer ? data.answer : [];
+                this.my_drafts_by_event = this.my_drafts.reduce(
+                    (acc, item)=>{
+                        acc[item.form_key.event_name] = item;
+                        return acc;
+                    },
+                    {}
+                );
+            //    this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
+            //    this.formData = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
+            })
+        }
+    },
     mounted() {
+        this.loadData();
+    },
+    watch: {
+        'wf_id'() {
+            this.loadData();
+        }
+    },
+/*
+//    updated() {
+    beforeUpdate() {
         api.workflow.query({
             jwt_token: this.jwt_token,
             meta: {
@@ -116,6 +178,8 @@ export default {
         })
 
     }
+*/
+
 }
 </script>
 
