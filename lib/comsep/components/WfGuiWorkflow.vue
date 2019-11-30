@@ -28,6 +28,17 @@
 
             <div v-if="qa.name=='_my_workflows'" style="border: thin solid red; padding: 10px;">
                 <h3>My workflows</h3>
+                <ul>
+                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id">
+                        <span>
+                            <nuxt-link :to="external_resources.createWorkflowUrl({wf_id: wf._id})">{{wf}}</nuxt-link>
+                            <!--template v-if="my_drafts_by_event[event_name]">
+                                <br/>
+                                <span>Has a draft: {{my_drafts_by_event[event_name].form_fields}}</span>
+                            </template-->
+                        </span>
+                    </li>
+                </ul>
             </div>
 
         </div>

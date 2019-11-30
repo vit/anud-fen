@@ -33,6 +33,9 @@ export default {
             external_resources: {
                 createPrepareEventUrl({event_name}) {
                     return 'author/new?event='+event_name;
+                },
+                createWorkflowUrl({wf_id}) {
+                    return 'author/wf?wf_id='+wf_id;
                 }
             }
         };
