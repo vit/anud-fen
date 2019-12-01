@@ -2,7 +2,6 @@
     <div style="border: thin solid green;">
         <h1>Workflow GUI</h1>
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
-
             <div v-if="qa.name=='_workflow_data'" style="border: thin solid red; padding: 10px;">
                 <b>This workflow ancestors</b>:
                     <span v-for="id in (qa.result.ancestors || [])" :key="id">
