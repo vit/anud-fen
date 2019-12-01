@@ -77,6 +77,7 @@ export default {
     },
     methods: {
         loadData() {
+/*
             api.workflow.query({
                 jwt_token: this.jwt_token,
                 meta: {
@@ -94,6 +95,30 @@ export default {
                 console.log("mounted()/getWorkflow", answer);
                 this.query_answer = answer.reply || [];
             })
+*/
+
+///*
+            api.rpc({
+                jwt_token: this.jwt_token,
+                model: 'Workflow',
+                proc: 'query',
+                args: {
+                    meta: {
+                        role_name: this.user_role,
+                        workflow_id: this.wf_id
+                    },
+                    query: [
+                        '_workflow_data',
+                        '_what_can_i_do',
+                        '_my_workflows'
+                    ],
+                }
+            }, (data) => {
+                console.log("mounted()/getWorkflow", data);
+                this.query_answer = data.answer || [];
+            })
+//*/
+
     
             api.rpc({
                 jwt_token: this.jwt_token,
