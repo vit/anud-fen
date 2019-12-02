@@ -14,8 +14,8 @@
 
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
                 <h3>What can I do now</h3>
-                <ul>
-                    <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name">
+                <ul style="margin-left: 20px; list-style-type: disc;">
+                    <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" style="margin-bottom: 10px;">
                         <span v-if="v.available">
                             <nuxt-link :to="external_resources.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
                             <template v-if="my_drafts_by_event[event_name]">
@@ -33,7 +33,7 @@
             <div v-if="qa.name=='_my_workflows'" style="border: thin solid red; padding: 10px;">
                 <h3>My workflows</h3>
                 <ul>
-                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id">
+                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;">
                         <span>
                             <nuxt-link :to="external_resources.createWorkflowUrl({wf_id: wf._id})">{{wf}}</nuxt-link>
                             <!--template v-if="my_drafts_by_event[event_name]">
