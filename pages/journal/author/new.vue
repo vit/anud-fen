@@ -1,9 +1,9 @@
 <template>
-    <!--Page-->
-    <div cclass="width-container">
 
+    <div cclass="width-container">
         <WfGuiEvent
-            v-if="$store.state.user.jwt"
+            vv-if="$store.state.user.jwt"
+            v-if="myId"
             :wf_id="contextId"
             :user_id="myId"
             role_name="user"
@@ -11,18 +11,14 @@
             :jwt_token="$store.state.user.jwt"
 
             :event_name='event_name'
-            q_event_name='create_new_submission'
             form_name="gn_paper"
 
         ></WfGuiEvent>
             <div v-else>
                 Вы не можете работать с этой формой, поскольку не вошли в систему
             </div>
-
-        <!--h1>Journal Author New Submission</h1-->
-
     </div>
-    <!--/Page-->
+
 </template>
 
 <script>
@@ -31,25 +27,27 @@ import WfGuiEvent from '~/lib/comsep/components/WfGuiEvent'
 
 export default {
     components: {
-//        Page,
-//        EditForm,
         WfGuiEvent
     },
+    props: [
+        'external_resources',
+        'contextId',
+        'myId'
+    ],
     data () {
         return {
-//            schema: null,
-//            formData: {
-//            },
+/*
             external_resources: {
             //    createPrepareEventUrl({event_name}) {
             //        return 'author/new?event='+event_name;
             //    }
             }
+*/
         };
     },
     computed: {
-        contextId() { return this.$store.state.workflow.currentContext.id; },
-        myId() { return this.$store.getters['user/id']; },
+//        contextId() { return this.$store.state.workflow.currentContext.id; },
+//        myId() { return this.$store.getters['user/id']; },
         event_name() { return this.$route.query.event }
     },
 }

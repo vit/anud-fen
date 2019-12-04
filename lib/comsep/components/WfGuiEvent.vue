@@ -6,6 +6,7 @@
                 :docMeta="docMeta"
                 :form_meta="form_meta"
                 :jwt_token="jwt_token"
+                :context="$store.state.workflow.currentContext"
             ></EditEventForm>
 
     </div>
@@ -39,8 +40,6 @@ export default {
     },
     computed: {
         docMeta() {
-//            const contextId = this.$store.state.workflow.currentContext.id;
-//            const ownerId = this.$store.getters['user/id'];
             const contextId = this.wf_id;
             const ownerId = this.user_id;
             return {

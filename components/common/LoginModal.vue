@@ -45,18 +45,6 @@
 <script>
 import { mapGetters } from 'vuex'
 
-/*
-import axios from 'axios';
-import https from 'https'
-
-// At instance level
-const axios1 = axios.create({
-  httpsAgent: new https.Agent({  
-    rejectUnauthorized: false
-  })
-})
-*/
-
 export default {
   name: 'LoginModal',
   props: {

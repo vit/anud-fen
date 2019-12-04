@@ -1,51 +1,55 @@
 <template>
+
     <div cclass="width-container">
         <WfGuiWorkflow
-            v-if="$store.state.user.jwt"
-            :wf_id="contextId"
+            v-if="wf_id"
+            :wf_id="wf_id"
             :user_id="myId"
             user_role="user"
             :external_resources="external_resources"
             :jwt_token="$store.state.user.jwt"
         ></WfGuiWorkflow>
-
-        <!--h1>Journal Author Submissions</h1>
-        <div v-for="s in submissions" :key="s._id" style="margin-top: 10px; padding: 10px; background-color: #f7f7f7;">
-            <h3>{{s.doc.title}}</h3>
-            <p>
-                {{s.doc.abstract}}
-            </p>
-        </div-->
     </div>
+
 </template>
 
 <script>
+
 import WfGuiWorkflow from '~/lib/comsep/components/WfGuiWorkflow'
 
 export default {
-  //name: 'LoginForm',
-  components: {
+    components: {
       WfGuiWorkflow
-  },
+    },
+    props: [
+        'external_resources',
+        'contextId',
+        'myId'
+    ],
     data () {
         return {
-//            submissions: [],
-            external_resources: {
-                createPrepareEventUrl({event_name}) {
-                    return 'author/new?event='+event_name;
-                },
-                createWorkflowUrl({wf_id}) {
-                    return 'author/wf?wf='+wf_id;
+            /*
+            external_resources: ((that) => {
+                return {
+                    createPrepareEventUrl({event_name}) {
+                        return that.url_base+'author/new?event='+event_name;
+                    },
+                    createWorkflowUrl({wf_id}) {
+                        return that.url_base + (that.contextId==wf_id ? 'author' : 'author?wf='+wf_id);
+                    }
                 }
-            }
+            })(this)
+            */
         };
     },
     computed: {
-        contextId() { return this.$store.state.workflow.currentContext.id; },
-        myId() { return this.$store.getters['user/id']; }
+//        contextId() { return this.$store.state.workflow.currentContext.id; },
+//        wf_id() { return this.$route.query.wf || this.$store.state.workflow.currentContext.id; },
+        wf_id() { return this.$route.query.wf || this.contextId; },
+//        myId() { return this.$store.getters['user/id']; },
+//        url_base() { return "/journal/" }
     },
-    mounted() {
-    }
 }
+
 </script>
 

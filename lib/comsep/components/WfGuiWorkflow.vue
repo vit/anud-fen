@@ -36,10 +36,6 @@
                     <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;">
                         <span>
                             <nuxt-link :to="external_resources.createWorkflowUrl({wf_id: wf._id})">{{wf}}</nuxt-link>
-                            <!--template v-if="my_drafts_by_event[event_name]">
-                                <br/>
-                                <span>Has a draft: {{my_drafts_by_event[event_name].form_fields}}</span>
-                            </template-->
                         </span>
                     </li>
                 </ul>
@@ -51,7 +47,6 @@
 
 <script>
 
-//import API from '~/lib/comsep/api'
 import API from '../api'
 const api = API();
 
@@ -76,27 +71,7 @@ export default {
     },
     methods: {
         loadData() {
-/*
-            api.workflow.query({
-                jwt_token: this.jwt_token,
-                meta: {
-                    wf_id: this.wf_id,
-    //                user_id: this.user_id,
-                    user_role: this.user_role
-                },
-                event: null,
-                query: [
-                    '_workflow_data',
-                    '_what_can_i_do',
-                    '_my_workflows'
-                ],
-            }, (answer) => {
-                console.log("mounted()/getWorkflow", answer);
-                this.query_answer = answer.reply || [];
-            })
-*/
 
-///*
             api.rpc({
                 jwt_token: this.jwt_token,
                 model: 'Workflow',
@@ -116,9 +91,7 @@ export default {
                 console.log("mounted()/getWorkflow", data);
                 this.query_answer = data.answer || [];
             })
-//*/
 
-    
             api.rpc({
                 jwt_token: this.jwt_token,
                 model: 'EventForm',
@@ -154,55 +127,6 @@ export default {
             this.loadData();
         }
     },
-/*
-//    updated() {
-    beforeUpdate() {
-        api.workflow.query({
-            jwt_token: this.jwt_token,
-            meta: {
-                wf_id: this.wf_id,
-//                user_id: this.user_id,
-                user_role: this.user_role
-            },
-            event: null,
-            query: [
-                '_workflow_data',
-                '_what_can_i_do',
-                '_my_workflows'
-            ],
-        }, (answer) => {
-            console.log("mounted()/getWorkflow", answer);
-            this.query_answer = answer.reply || [];
-        })
-
-        api.rpc({
-            jwt_token: this.jwt_token,
-            model: 'EventForm',
-            proc: 'list_my_event_forms',
-            args: {form_meta: {
-                    role_name: this.user_role,
-                // where writes
-                    workflow_id: this.wf_id,
-            //        event_name: this.event_name,
-                // what writes
-            //        form_name: this.form_name
-            }}
-        }, (data) => {
-            console.log("list_my_event_forms()", data);
-            this.my_drafts = data && data.answer ? data.answer : [];
-            this.my_drafts_by_event = this.my_drafts.reduce(
-                (acc, item)=>{
-                    acc[item.form_key.event_name] = item;
-                    return acc;
-                },
-                {}
-            );
-        //    this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
-        //    this.formData = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
-        })
-
-    }
-*/
 
 }
 </script>

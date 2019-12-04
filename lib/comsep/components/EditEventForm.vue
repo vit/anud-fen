@@ -61,6 +61,7 @@ export default {
         FormField
     },
     props: [
+        'context',
         'docMeta',
         'form_meta',
         'jwt_token',
@@ -81,7 +82,7 @@ export default {
     watch: {
         'formData': {
             handler: function(v) {
-                console.log("watch -- change");
+//                console.log("watch -- change");
                 this.saveDelayed();
             },
             deep: true
@@ -90,12 +91,10 @@ export default {
 
     computed: {
         formTitle() {
-//            const form = this.form(this.formName);
             const form = this.form;
             return form && form.title ? form.title : null;
         },
         fields() {
-//            const form = this.form(this.formName);
             const form = this.form;
             return form && form.fields ? form.fields : [];
         },
@@ -105,11 +104,10 @@ export default {
         formName() {
             return this.docMeta ? this.docMeta.formName : null;
         },
-        context() {
-            return this.$store.state.workflow.currentContext;
-        },
+//        context() {
+//            return this.$store.state.workflow.currentContext;
+//        },
         form() {
-//            const context = this.context();
             const context = this.context;
             return context && context.forms && this.formName ? context.forms[this.formName] : null;
         },
