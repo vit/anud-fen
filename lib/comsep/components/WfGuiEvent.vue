@@ -3,8 +3,9 @@
         <h1>Workflow Prepare Event</h1>
 
             <EditEventForm
-                :docMeta="docMeta"
+                dddocMeta="docMeta"
                 :form_meta="form_meta"
+                :form_name="form_name"
                 :jwt_token="jwt_token"
                 :context="$store.state.workflow.currentContext"
             ></EditEventForm>
@@ -39,6 +40,7 @@ export default {
         };
     },
     computed: {
+/*
         docMeta() {
             const contextId = this.wf_id;
             const ownerId = this.user_id;
@@ -53,6 +55,7 @@ export default {
                 formName: 'gn_paper'
             };
         },
+*/
         form_meta() {
             //const workflow_id = this.wf_id;
             return {
@@ -63,7 +66,7 @@ export default {
                 workflow_id: this.wf_id,
                 event_name: this.event_name,
             // what writes
-                form_name: this.form_name
+//                form_name: this.form_name
             };
         },
     },

@@ -62,8 +62,9 @@ export default {
     },
     props: [
         'context',
-        'docMeta',
+//        'docMeta',
         'form_meta',
+        'form_name',
         'jwt_token',
     ],
     data () {
@@ -101,15 +102,13 @@ export default {
         fieldNames() {
             return this.fields.map(f => f.name);
         },
-        formName() {
-            return this.docMeta ? this.docMeta.formName : null;
-        },
-//        context() {
-//            return this.$store.state.workflow.currentContext;
+//        formName() {
+//            return this.docMeta ? this.docMeta.formName : null;
 //        },
         form() {
             const context = this.context;
-            return context && context.forms && this.formName ? context.forms[this.formName] : null;
+//            return context && context.forms && this.formName ? context.forms[this.formName] : null;
+            return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
         },
     },
     methods: {
@@ -140,7 +139,8 @@ export default {
                     jwt_token: this.jwt_token,
                     model: 'EventForm',
                     proc: 'save_my_event_form_fields',
-                    args: {form_meta: this.form_meta, form_fields: this.formData}
+//                    args: {form_meta: this.form_meta, form_fields: this.formData, form_name: this.formName}
+                    args: {form_meta: this.form_meta, form_fields: this.formData, form_name: this.form_name}
                 }, (data) => {
                     console.log("save_my_event_form_fields()", data);
                     this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
