@@ -2,13 +2,16 @@
     <div sstyle="border: thin solid green;">
         <h1>Workflow Prepare Event</h1>
 
+        <!--h2>{{event_title}}</h2-->
+
             <EditEventForm
                 :form_meta="form_meta"
                 :form_name="form_name"
                 :form_descr="form_descr"
+                :event_descr="event_descr"
                 :jwt_token="jwt_token"
                 :context="context"
-                :lang='office_config.lang'
+                :lang='lang'
             ></EditEventForm>
 
     </div>
@@ -31,7 +34,7 @@ export default {
 
         'event_name',
 //        'form_name',
-        'lang'
+//        'lang'
     ],
     data () {
         return {
@@ -56,14 +59,16 @@ export default {
         context() {
             return this.$store.state.workflow.currentContext
         },
-        form_name() {
-//            let result = null;
+        lang() {
+          return this.office_config.lang;  
+        },
+        event_descr() {
             const roles = this.office_config.office_context.schema.roles;
             const role_data = roles[this.role_name];
-            const event = role_data && role_data.events ? role_data.events[this.event_name] : null;
-            return event && event.accepts ? event.accepts.form : null;
-            
-//            return 'gn_paper';
+            return role_data && role_data.events ? role_data.events[this.event_name] : null;
+        },
+        form_name() {
+            return this.event_descr && this.event_descr.accepts ? this.event_descr.accepts.form : null;
         },
         form_descr() {
             const context = this.context;

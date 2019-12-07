@@ -19,12 +19,6 @@
             <div v-else>
                 Вы не можете работать с этой формой, поскольку не вошли в систему
             </div>
-
-<hr>
-{{office_config.office_context.schema}}
-<hr>
-{{office_config.office_context.forms}}
-
     </div>
 
 </template>

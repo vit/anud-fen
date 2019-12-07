@@ -1,6 +1,6 @@
 <template>
     <div cclass="width-container">
-        <h2>Edit Form</h2>
+        <h2>{{event_title}}</h2>
 
         <div class="form-container">
           <form
@@ -28,6 +28,7 @@
 
                 <footer class="c-card-footer">
                     <button
+                        v-if="form_name"
                         :disabled="!isSaved"
                         type="button"
                         class="button is-danger c-card-footer-item iis-outlined"
@@ -41,10 +42,14 @@
                         class="button is-success c-card-footer-item iis-outlined"
                         @click="submitForm"
                     >
-                        Подать документ
+                        {{event_title}}
                     </button>
-                    <span v-if="isSaved">The draft is saved</span>
-                    <span v-if="waitSaving">Saving the draft...</span>
+                    <div
+                        v-if="form_name"
+                    >
+                        <span v-if="isSaved">The draft is saved</span>
+                        <span v-if="waitSaving">Saving the draft...</span>
+                    </div>
                 </footer>
 
             </div>
@@ -71,6 +76,7 @@ export default {
         'form_meta',
         'form_name',
         'form_descr',
+        'event_descr',
         'jwt_token',
         'lang'
     ],
@@ -111,6 +117,9 @@ export default {
 //            const context = this.context;
 //            return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
             return this.form_descr;
+        },
+        event_title() {
+            return this.event_descr && this.event_descr.title ? this.event_descr.title[this.lang] : null;
         },
     },
     methods: {
