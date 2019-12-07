@@ -44,12 +44,12 @@
                     >
                         {{event_title}}
                     </button>
-                    <div
+                    <span
                         v-if="form_name"
                     >
                         <span v-if="isSaved">The draft is saved</span>
                         <span v-if="waitSaving">Saving the draft...</span>
-                    </div>
+                    </span>
                 </footer>
 
             </div>

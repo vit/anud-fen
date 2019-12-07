@@ -7,7 +7,7 @@
                             :name="field.name"
                             v-model="formData[field.name]"
                             :password-reveal="field.type=='password'"
-                            :placeholder="field.placeholder || field.label || ''"
+                            :placeholder="get_placeholder(field)"
                             :ref="field.type"
                             autofocus
                             rrequired
@@ -61,6 +61,9 @@ export default {
     methods: {
         get_label(field) {
             return field && field.label ? (field.label[this.lang] || field.label['en']) : '';
+        },
+        get_placeholder(field) {
+            return field && field.placeholder ? (field.placeholder[this.lang] || field.placeholder['en']) : (this.get_label(field) || '')
         }
     },
     mounted() {
