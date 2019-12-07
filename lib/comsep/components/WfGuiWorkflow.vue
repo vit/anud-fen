@@ -5,7 +5,7 @@
             <div v-if="qa.name=='_workflow_data'" style="border: thin solid red; padding: 10px;">
                 <b>This workflow ancestors</b>:
                     <span v-for="id in (qa.result.ancestors || [])" :key="id">
-                        <nuxt-link :to="external_resources.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
+                        <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
                     </span>
 
                 <h3>This workflow data</h3>
@@ -17,7 +17,7 @@
                 <ul style="margin-left: 20px; list-style-type: disc;">
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" style="margin-bottom: 10px;">
                         <span v-if="v.available">
-                            <nuxt-link :to="external_resources.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
+                            <nuxt-link :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
                             <template v-if="my_drafts_by_event[event_name]">
                                 <br/>
                                 <span>Has a draft: {{my_drafts_by_event[event_name].form_fields}}</span>
@@ -35,7 +35,7 @@
                 <ul>
                     <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;">
                         <span>
-                            <nuxt-link :to="external_resources.createWorkflowUrl({wf_id: wf._id})">{{wf}}</nuxt-link>
+                            <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: wf._id})">{{wf}}</nuxt-link>
                         </span>
                     </li>
                 </ul>
@@ -58,7 +58,7 @@ export default {
         'wf_id',
         'user_id',
         'user_role',
-        'external_resources'
+        'office_config'
     ],
     data () {
         return {
@@ -114,8 +114,6 @@ export default {
                     },
                     {}
                 );
-            //    this.formDataSaved = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
-            //    this.formData = data.answer && data.answer.form_fields ? this.copyFieldsFromHash(data.answer.form_fields) : {};
             })
         }
     },

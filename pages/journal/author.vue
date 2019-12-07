@@ -2,7 +2,7 @@
     <Page>
     <div cclass="width-container">
         <nuxt-child
-            :external_resources="external_resources"
+            :office_config="office_config"
             :contextId="contextId"
             :myId="myId"
         />
@@ -19,15 +19,21 @@ export default {
     },
     data () {
         return {
-            external_resources: ((that) => {
-                return {
-                    createPrepareEventUrl({event_name}) {
-                        return that.url_base+'author/new?event='+event_name;
+            office_config: ((that) => {
+                const me = {
+                    helpers: {
+                        createPrepareEventUrl({event_name}) {
+                            return me.url_base+'/new?event='+event_name;
+                        },
+                        createWorkflowUrl({wf_id}) {
+                            return me.url_base + (me.contextId==wf_id ? '' : '?wf='+wf_id);
+                        }
                     },
-                    createWorkflowUrl({wf_id}) {
-                        return that.url_base + (that.contextId==wf_id ? 'author' : 'author?wf='+wf_id);
-                    }
+                    url_base: '/journal/author',
+                    lang: 'ru',
+                    office_context: that.$store.state.workflow.currentContext
                 }
+                return me;
             })(this)
         };
     },
@@ -35,7 +41,7 @@ export default {
         contextId() { return this.$store.state.workflow.currentContext.id; },
 //        wf_id() { return this.$route.query.wf || this.$store.state.workflow.currentContext.id; },
         myId() { return this.$store.getters['user/id']; },
-        url_base() { return "/journal/" }
+//        url_base() { return "/journal/" }
     },
 }
 

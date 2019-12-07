@@ -3,11 +3,12 @@
         <h1>Workflow Prepare Event</h1>
 
             <EditEventForm
-                dddocMeta="docMeta"
                 :form_meta="form_meta"
                 :form_name="form_name"
+                :form_descr="form_descr"
                 :jwt_token="jwt_token"
-                :context="$store.state.workflow.currentContext"
+                :context="context"
+                :lang='office_config.lang'
             ></EditEventForm>
 
     </div>
@@ -26,38 +27,21 @@ export default {
         'wf_id',
         'user_id',
         'role_name',
-        'external_resources',
+        'office_config',
 
         'event_name',
-        'form_name'
+//        'form_name',
+        'lang'
     ],
     data () {
         return {
-//            query_answer: []
             schema: null,
             formData: {
             },
         };
     },
     computed: {
-/*
-        docMeta() {
-            const contextId = this.wf_id;
-            const ownerId = this.user_id;
-            return {
-            // who writes
-                ownerId,
-                roleName: 'user',
-            // where writes
-                contextId,
-                eventName: 'new_submission',
-            // what writes
-                formName: 'gn_paper'
-            };
-        },
-*/
         form_meta() {
-            //const workflow_id = this.wf_id;
             return {
             // who writes
                 //ownerId,
@@ -69,6 +53,22 @@ export default {
 //                form_name: this.form_name
             };
         },
+        context() {
+            return this.$store.state.workflow.currentContext
+        },
+        form_name() {
+//            let result = null;
+            const roles = this.office_config.office_context.schema.roles;
+            const role_data = roles[this.role_name];
+            const event = role_data && role_data.events ? role_data.events[this.event_name] : null;
+            return event && event.accepts ? event.accepts.form : null;
+            
+//            return 'gn_paper';
+        },
+        form_descr() {
+            const context = this.context;
+            return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
+        }
     },
     mounted() {
     }

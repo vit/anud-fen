@@ -1,6 +1,6 @@
 <template>
     <div sstyle="border: 3px solid red;">
-                    <b-field v-if="['email', 'password', 'text'].includes(field.type)" :label="field.label">
+                    <b-field v-if="['email', 'password', 'text'].includes(field.type)" :label="get_label(field)">
                         <b-input
                             :useHtml5Validation="false"
                             :type="field.type"
@@ -14,7 +14,7 @@
                         >
                         </b-input>
                     </b-field>
-                    <b-field v-if="['textarea'].includes(field.type)" :label="field.label" :key="field.name">
+                    <b-field v-if="['textarea'].includes(field.type)" :label="get_label(field)" :key="field.name">
                         <b-input style="width: 100%;"
                             :useHtml5Validation="false"
                             :type="field.type"
@@ -35,7 +35,7 @@
                         :name="field.name"
                         v-model="formData[field.name]"
                         :key="field.name"
-                    >{{field.label}}</b-checkbox>
+                    >{{get_label(field)}}</b-checkbox>
     </div>
 </template>
 
@@ -48,7 +48,8 @@ export default {
     },
     props: [
         'field',
-        'formData'
+        'formData',
+        'lang'
     ],
     data () {
         return {
@@ -58,6 +59,9 @@ export default {
     computed: {
     },
     methods: {
+        get_label(field) {
+            return field && field.label ? (field.label[this.lang] || field.label['en']) : '';
+        }
     },
     mounted() {
     },

@@ -13,11 +13,17 @@
             <div class="c-card" style="width: auto">
 
                 <header class="c-card-header">
-                    <h3 class="c-card-header-title">{{formTitle}}</h3>
+                    <h3 class="c-card-header-title">{{get_title(form)}}</h3>
                 </header>
 
                 <section class="c-card-content">
-                    <FormField v-for="field of fields" :field="field" :formData="formData" :key="field.name"></FormField>
+                    <FormField
+                        v-for="field of fields"
+                        :field="field"
+                        :formData="formData"
+                        :key="field.name"
+                        :lang='lang'
+                    ></FormField>
                 </section>
 
                 <footer class="c-card-footer">
@@ -49,7 +55,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+//import axios from 'axios';
 import FormField from './form/FormField'
 
 import API from '../api'
@@ -61,11 +67,12 @@ export default {
         FormField
     },
     props: [
-        'context',
-//        'docMeta',
+//        'context',
         'form_meta',
         'form_name',
+        'form_descr',
         'jwt_token',
+        'lang'
     ],
     data () {
         return {
@@ -83,7 +90,6 @@ export default {
     watch: {
         'formData': {
             handler: function(v) {
-//                console.log("watch -- change");
                 this.saveDelayed();
             },
             deep: true
@@ -91,10 +97,9 @@ export default {
     },
 
     computed: {
-        formTitle() {
-            const form = this.form;
-            return form && form.title ? form.title : null;
-        },
+//        formTitle() {
+//            return this.get_title(this.form);
+//        },
         fields() {
             const form = this.form;
             return form && form.fields ? form.fields : [];
@@ -102,16 +107,16 @@ export default {
         fieldNames() {
             return this.fields.map(f => f.name);
         },
-//        formName() {
-//            return this.docMeta ? this.docMeta.formName : null;
-//        },
         form() {
-            const context = this.context;
-//            return context && context.forms && this.formName ? context.forms[this.formName] : null;
-            return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
+//            const context = this.context;
+//            return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
+            return this.form_descr;
         },
     },
     methods: {
+        get_title(form) {
+            return form && form.title ? (form.title[this.lang] || form.title['en']) : '';
+        },
         saveDelayed() {
             this.isSaved = false;
             if (!this.waitTimer) {
@@ -139,7 +144,6 @@ export default {
                     jwt_token: this.jwt_token,
                     model: 'EventForm',
                     proc: 'save_my_event_form_fields',
-//                    args: {form_meta: this.form_meta, form_fields: this.formData, form_name: this.formName}
                     args: {form_meta: this.form_meta, form_fields: this.formData, form_name: this.form_name}
                 }, (data) => {
                     console.log("save_my_event_form_fields()", data);

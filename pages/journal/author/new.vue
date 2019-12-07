@@ -6,17 +6,25 @@
             v-if="myId"
             :wf_id="contextId"
             :user_id="myId"
-            role_name="user"
-            :external_resources="external_resources"
+            :role_name="role_name"
+            :office_config="office_config"
             :jwt_token="$store.state.user.jwt"
 
             :event_name='event_name'
-            form_name="gn_paper"
+            fform_name="form_name"
+
+            llang='ru'
 
         ></WfGuiEvent>
             <div v-else>
                 Вы не можете работать с этой формой, поскольку не вошли в систему
             </div>
+
+<hr>
+{{office_config.office_context.schema}}
+<hr>
+{{office_config.office_context.forms}}
+
     </div>
 
 </template>
@@ -30,25 +38,21 @@ export default {
         WfGuiEvent
     },
     props: [
-        'external_resources',
+        'office_config',
         'contextId',
         'myId'
     ],
     data () {
         return {
-/*
-            external_resources: {
-            //    createPrepareEventUrl({event_name}) {
-            //        return 'author/new?event='+event_name;
-            //    }
-            }
-*/
         };
     },
     computed: {
 //        contextId() { return this.$store.state.workflow.currentContext.id; },
 //        myId() { return this.$store.getters['user/id']; },
-        event_name() { return this.$route.query.event }
+        event_name() { return this.$route.query.event },
+        role_name() { return 'user' },
+
+
     },
 }
 </script>
