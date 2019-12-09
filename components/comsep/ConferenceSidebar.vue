@@ -7,7 +7,7 @@
                 </nuxt-link>
             </li>
             <li class="menu-item">
-                <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'my'">
+                <nuxt-link class="not-exact" :to="$store.getters['wp/getCurrentComsepContextPath']+'my'">
                     Мой офис
                 </nuxt-link>
             </li>

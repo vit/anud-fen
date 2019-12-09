@@ -32,7 +32,7 @@
                         class="button is-info c-card-footer-item iis-outlined"
                         @click="exitForm"
                     >
-                        Выйти
+                        Назад
                     </button>
                     <button
                         v-if="form_name"

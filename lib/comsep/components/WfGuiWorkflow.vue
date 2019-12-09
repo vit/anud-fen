@@ -17,14 +17,18 @@
                 <ul style="margin-left: 20px; list-style-type: disc;">
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" style="margin-bottom: 10px;">
                         <span v-if="v.available">
-                            <nuxt-link :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_name}}</nuxt-link>
+                            <nuxt-link :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link>
                             <template v-if="my_drafts_by_event[event_name]">
                                 <br/>
-                                <span>Has a draft: {{my_drafts_by_event[event_name].form_fields}}</span>
+                                <span>Есть черновик: {{my_drafts_by_event[event_name].form_fields}}</span>
                             </template>
                         </span>
-                        <span v-else>
-                            <strike>{{k}}</strike>
+                        <span v-else style="color: #aaaaaa;">
+                            <strike>{{event_title(v, event_name)}}</strike>
+                            <template v-if="my_drafts_by_event[event_name]">
+                                <br/>
+                                <span>Есть черновик: {{my_drafts_by_event[event_name].form_fields}}</span>
+                            </template>
                         </span>
                     </li>
                 </ul>
@@ -68,6 +72,9 @@ export default {
         };
     },
     computed: {
+        lang() {
+          return this.office_config.lang;  
+        },
     },
     methods: {
         loadData() {
@@ -115,6 +122,9 @@ export default {
                     {}
                 );
             })
+        },
+        event_title(v, name) {
+            return v && v.title ? v.title[this.lang] : name;
         }
     },
     mounted() {

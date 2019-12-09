@@ -114,7 +114,7 @@ export default {
       display: block;
       padding: 8px 16px;
     }
-    a.nuxt-link-exact-active, a:hover {
+    a.nuxt-link-exact-active, a.not-exact.nuxt-link-active, a:hover {
       background-color: #000077;
       color: white;
     }
