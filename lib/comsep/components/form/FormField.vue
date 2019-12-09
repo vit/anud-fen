@@ -21,7 +21,6 @@
                             :name="field.name"
                             v-model="formData[field.name]"
                             :password-reveal="field.type=='password'"
-                            :pplaceholder="field.placeholder || field.label || ''"
                             :ref="field.type"
                             autofocus
                             rrequired

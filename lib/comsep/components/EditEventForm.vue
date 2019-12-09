@@ -28,6 +28,13 @@
 
                 <footer class="c-card-footer">
                     <button
+                        type="button"
+                        class="button is-info c-card-footer-item iis-outlined"
+                        @click="exitForm"
+                    >
+                        Выйти
+                    </button>
+                    <button
                         v-if="form_name"
                         :disabled="!isSaved"
                         type="button"
@@ -176,6 +183,9 @@ export default {
         },
         saveForm() {
         },
+        exitForm() {
+            this.$emit('exited', {});
+        },
         deleteForm() {
             console.log("deleteForm()/clicked");
             api.rpc({
@@ -188,6 +198,9 @@ export default {
                 if( data && !data.error) {
                     this.formDataSaved = {};
                     this.formData = {};
+
+                    this.$emit('dropped', data);
+
                 }
             })
         },
@@ -203,6 +216,7 @@ export default {
             }, (data) => {
                 console.log("submitForm()/data:", data);
                 if( data && !data.error) {
+                    this.$emit('submitted', data);
                 }
             })
         },

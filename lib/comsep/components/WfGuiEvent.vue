@@ -12,6 +12,9 @@
                 :jwt_token="jwt_token"
                 :context="context"
                 :lang='lang'
+                @submitted="onExit"
+                @dropped="onExit"
+                @exited="onExit"
             ></EditEventForm>
 
     </div>
@@ -73,6 +76,15 @@ export default {
         form_descr() {
             const context = this.context;
             return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
+        },
+//        return_wf_id() {
+//            return this.wf_id;
+//        }
+    },
+    methods: {
+        onExit(data) {
+            const path_to = this.office_config.helpers.createWorkflowUrl({wf_id: this.wf_id})
+            this.$router.push(path_to);
         }
     },
     mounted() {
