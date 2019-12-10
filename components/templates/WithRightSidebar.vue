@@ -45,26 +45,23 @@
               <ConferenceSidebar v-else />
             </template>
 
-            <hr>
+            <!--hr>
             <div>
               {{$store.getters['wp/getCurrentComsepContextName']}} | {{$store.getters['wp/getCurrentComsepContextPath']}}
             </div>
             <hr>
             <div>
               %%{{$store.state.workflow.currentContext}}%%
-            </div>
+            </div-->
 
-            <hr>
+            <!--hr>
             <div style="border: thin solid red; height: 150px; overflow-y: scroll; overflow-x: wrap; overflow-wrap: break-word; margin-bottom: 15px; padding: 5px;">
               <b>Логи</b>
               <p v-for="(item, index) in $store.state.log.items" :key="index">
                 {{item}}
               </p>
               <hr>
-              <!--p v-for="(log, index) in $store.state.user.serverLog" :key="index">
-                {{log}}
-              </p-->
-            </div>
+            </div-->
 
             <!--div
               v-if="$store.state.wp.page_data && $store.state.wp.page_data.path_meta && $store.state.wp.page_data.path_meta.sidebar_rendered"

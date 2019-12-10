@@ -1,21 +1,21 @@
 <template>
     <div style="border: thin solid green;">
-        <h1>Workflow GUI</h1>
+        <h1>Мой офис</h1>
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
-            <div v-if="qa.name=='_workflow_data'" style="border: thin solid red; padding: 10px;">
-                <b>This workflow ancestors</b>:
+            <div v-if="qa.name=='_workflow_data' && qa.result.ancestors.length > 0" style="border: thin solid red; padding: 10px;">
+                <b>Иерарархия</b>:
                     <span v-for="id in (qa.result.ancestors || [])" :key="id">
                         <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
                     </span>
 
-                <h3>This workflow data</h3>
-                {{qa.result}}
+                <!--h3>This workflow data</h3>
+                {{qa.result}} -->
             </div>
 
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
-                <h3>What can I do now</h3>
-                <ul style="margin-left: 20px; list-style-type: disc;">
-                    <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" style="margin-bottom: 10px;">
+                <h3>Действия</h3>
+                <ul style="-margin-left: 20px; -list-style-type: disc;" class="wf-events-list">
+                    <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" sstyle="margin-bottom: 10px;" class="wf-event-item">
                         <span v-if="v.available">
                             <nuxt-link :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link>
                             <template v-if="my_drafts_by_event[event_name]">
@@ -34,8 +34,8 @@
                 </ul>
             </div>
 
-            <div v-if="qa.name=='_my_workflows'" style="border: thin solid red; padding: 10px;">
-                <h3>My workflows</h3>
+            <div v-if="qa.name=='_my_workflows' && qa.result.items.length>0" style="border: thin solid red; padding: 10px;">
+                <h3>Мои дела</h3>
                 <ul>
                     <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;">
                         <span>
@@ -139,3 +139,18 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.wf-events-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+//    align-items: stretch;
+//    align-items: flex-start;
+}
+.wf-event-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 50%;
+    border: thin solid green;
+}
+</style>
