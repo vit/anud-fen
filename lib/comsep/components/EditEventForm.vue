@@ -54,8 +54,8 @@
                     <span
                         v-if="form_name"
                     >
-                        <span v-if="isSaved">The draft is saved</span>
-                        <span v-if="waitSaving">Saving the draft...</span>
+                        <span v-if="isSaved">Черновик сохранен</span>
+                        <span v-if="waitSaving">Сохранение черновика...</span>
                     </span>
                 </footer>
 

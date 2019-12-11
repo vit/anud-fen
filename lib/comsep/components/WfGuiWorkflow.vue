@@ -3,7 +3,7 @@
         <h1>Мой офис</h1>
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
             <div v-if="qa.name=='_workflow_data' && qa.result.ancestors.length > 0" style="border: thin solid red; padding: 10px;">
-                <b>Иерарархия</b>:
+                <b>Иерархия</b>:
                     <span v-for="id in (qa.result.ancestors || [])" :key="id">
                         <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
                     </span>
@@ -13,20 +13,24 @@
             </div>
 
             <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
-                <h3>Действия</h3>
+                <h3>Что тут можно сделать</h3>
                 <ul style="-margin-left: 20px; -list-style-type: disc;" class="wf-events-list">
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" sstyle="margin-bottom: 10px;" class="wf-event-item">
                         <span v-if="v.available">
-                            <nuxt-link :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link>
+                            <div style="text-align: center;">
+                                <nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link>
+                            </div>
                             <template v-if="my_drafts_by_event[event_name]">
-                                <br/>
+                                <!--br/-->
                                 <span>Есть черновик: {{my_drafts_by_event[event_name].form_fields}}</span>
                             </template>
                         </span>
                         <span v-else style="color: #aaaaaa;">
-                            <strike>{{event_title(v, event_name)}}</strike>
+                            <div style="text-align: center;">
+                                <strike class="button iis-info iis-primary" disabled>{{event_title(v, event_name)}}</strike>
+                            </div>
                             <template v-if="my_drafts_by_event[event_name]">
-                                <br/>
+                                <!--br/-->
                                 <span>Есть черновик: {{my_drafts_by_event[event_name].form_fields}}</span>
                             </template>
                         </span>
@@ -35,11 +39,13 @@
             </div>
 
             <div v-if="qa.name=='_my_workflows' && qa.result.items.length>0" style="border: thin solid red; padding: 10px;">
-                <h3>Мои дела</h3>
-                <ul>
-                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;">
+                <h3>Мои текущие дела</h3>
+                <ul class="wf-events-list">
+                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;" class="wf-event-item">
                         <span>
-                            <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: wf._id})">{{wf}}</nuxt-link>
+                            <h4>{{wf_type(wf)}}</h4>
+                            <p><small>{{wf}}</small></p>
+                            <nuxt-link class="button is-info" :to="office_config.helpers.createWorkflowUrl({wf_id: wf._id})">Перейти</nuxt-link>
                         </span>
                     </li>
                 </ul>
@@ -68,7 +74,15 @@ export default {
         return {
             query_answer: [],
             my_drafts: [],
-            my_drafts_by_event: []
+            my_drafts_by_event: [],
+            schemas_map: {
+                "__CONFERENCE_000__:submission": {
+                    title: "Поданная статья"
+                },
+                "__CONFERENCE_000__:registration": {
+                    title: "Поданная заявка на участие"
+                },
+            }
         };
     },
     computed: {
@@ -125,6 +139,9 @@ export default {
         },
         event_title(v, name) {
             return v && v.title ? v.title[this.lang] : name;
+        },
+        wf_type(wf) {
+            return wf && wf.app && this.schemas_map && this.schemas_map[wf.app] ? this.schemas_map[wf.app].title : ''
         }
     },
     mounted() {
@@ -148,9 +165,15 @@ export default {
 //    align-items: flex-start;
 }
 .wf-event-item {
-    margin-bottom: 10px;
+    flex-grow: 1;
+    flex-shrink: 1;
+//    margin-bottom: 10px;
+    margin: 10px;
+//    margin: 2%;
     padding: 10px;
-    width: 50%;
-    border: thin solid green;
+    -max-width: 50%;
+    -border: thin solid green;
+    background-color: #eeeeee;
+    -text-align: center;
 }
 </style>

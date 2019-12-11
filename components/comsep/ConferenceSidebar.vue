@@ -13,6 +13,14 @@
             </li>
 
 
+            <hr>
+            <li class="menu-item">
+                <nuxt-link class="not-exact" :to="$store.getters['wp/getCurrentComsepContextPath']+'editor'">
+                    Офис редактора
+                </nuxt-link>
+            </li>
+
+
 <hr>
                 <!--h3 class='menu-subheader'>Офис автора</h3>
             <li class="menu-item">

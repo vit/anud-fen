@@ -2,8 +2,6 @@
     <div sstyle="border: thin solid green;">
         <h1>Workflow Prepare Event</h1>
 
-        <!--h2>{{event_title}}</h2-->
-
             <EditEventForm
                 :form_meta="form_meta"
                 :form_name="form_name"
