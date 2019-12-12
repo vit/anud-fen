@@ -1,6 +1,7 @@
 <template>
     <div style="border: thin solid green;">
         <h1>Мой офис</h1>
+
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
             <div v-if="qa.name=='_workflow_data' && qa.result.ancestors.length > 0" style="border: thin solid red; padding: 10px;">
                 <b>Иерархия</b>:
@@ -44,6 +45,23 @@
                     <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;" class="wf-event-item">
                         <span>
                             <h4>{{wf_type(wf)}}</h4>
+                            <p>Название: <b>{{wf.title}}</b></p>
+                            <p>Состояние: <b>{{wf.state}}</b></p>
+                            <!--p><small>{{wf}}</small></p-->
+                            <nuxt-link class="button is-info" :to="office_config.helpers.createWorkflowUrl({wf_id: wf._id})">Перейти</nuxt-link>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div v-if="qa.name=='_editor_workflows' && qa.result.items.length>0" style="border: thin solid red; padding: 10px;">
+                <h3>Дела редактора</h3>
+                <ul class="wf-events-list">
+                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;" class="wf-event-item">
+                        <span>
+                            <h4>{{wf_type(wf)}}</h4>
+                            <p>Название: <b>{{wf.title}}</b></p>
+                            <p>Состояние: <b>{{wf.state}}</b></p>
                             <p><small>{{wf}}</small></p>
                             <nuxt-link class="button is-info" :to="office_config.helpers.createWorkflowUrl({wf_id: wf._id})">Перейти</nuxt-link>
                         </span>
@@ -68,7 +86,8 @@ export default {
         'wf_id',
         'user_id',
         'user_role',
-        'office_config'
+        'office_config',
+        'queries'
     ],
     data () {
         return {
@@ -82,7 +101,14 @@ export default {
                 "__CONFERENCE_000__:registration": {
                     title: "Поданная заявка на участие"
                 },
-            }
+            },
+/*
+            queries: [
+                '_workflow_data',
+                '_what_can_i_do',
+                '_my_workflows'
+            ],
+*/
         };
     },
     computed: {
@@ -102,11 +128,12 @@ export default {
                         role_name: this.user_role,
                         workflow_id: this.wf_id
                     },
-                    query: [
-                        '_workflow_data',
-                        '_what_can_i_do',
-                        '_my_workflows'
-                    ],
+                    query: this.queries,
+//                    query: [
+//                        '_workflow_data',
+//                        '_what_can_i_do',
+//                        '_my_workflows'
+//                    ],
                 }
             }, (data) => {
                 console.log("mounted()/getWorkflow", data);

@@ -7,6 +7,7 @@
             :user_id="myId"
             user_role="user"
             :office_config="office_config"
+            :queries="queries"
             :jwt_token="$store.state.user.jwt"
         ></WfGuiWorkflow>
     </div>
@@ -28,6 +29,11 @@ export default {
     ],
     data () {
         return {
+            queries: [
+                '_workflow_data',
+                '_what_can_i_do',
+                '_my_workflows'
+            ],
         };
     },
     computed: {

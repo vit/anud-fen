@@ -41,6 +41,7 @@ export default {
         };
     },
     computed: {
+
         contextId() { return this.$store.state.workflow.currentContext.id; },
 //        wf_id() { return this.$route.query.wf || this.$store.state.workflow.currentContext.id; },
         myId() { return this.$store.getters['user/id']; },
