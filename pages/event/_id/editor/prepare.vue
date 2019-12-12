@@ -44,7 +44,8 @@ export default {
     },
     computed: {
         event_name() { return this.$route.query.event },
-        role_name() { return 'user' },
+//        role_name() { return 'user' },
+        role_name() { return 'editor' },
 
 
     },
