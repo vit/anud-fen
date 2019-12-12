@@ -1,11 +1,14 @@
 <template>
 
     <div cclass="width-container">
+
         <WfGuiEvent
             vv-if="$store.state.user.jwt"
             v-if="myId"
-            :wf_id="contextId"
-            :return_wf_id="contextId"
+            :wwf_id="contextId"
+            :wf_id="wf_id"
+            :rreturn_wf_id="contextId"
+            :return_wf_id="wf_id"
             :user_id="myId"
             :role_name="role_name"
             :office_config="office_config"
@@ -43,6 +46,7 @@ export default {
         };
     },
     computed: {
+        wf_id() { return this.$route.query.wf || this.contextId },
         event_name() { return this.$route.query.event },
 //        role_name() { return 'user' },
         role_name() { return 'editor' },

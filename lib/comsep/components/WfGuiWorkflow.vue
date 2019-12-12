@@ -19,7 +19,8 @@
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" sstyle="margin-bottom: 10px;" class="wf-event-item">
                         <span v-if="v.available">
                             <div style="text-align: center;">
-                                <nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link>
+                                <!--nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link-->
+                                <nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name, wf_id})">{{event_title(v, event_name)}}</nuxt-link>
                             </div>
                             <template v-if="my_drafts_by_event[event_name]">
                                 <!--br/-->

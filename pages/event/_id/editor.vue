@@ -22,8 +22,8 @@ export default {
             office_config: ((that) => {
                 const me = {
                     helpers: {
-                        createPrepareEventUrl({event_name}) {
-                            return me.url_base+'/prepare?event='+event_name;
+                        createPrepareEventUrl({event_name, wf_id}) {
+                            return me.url_base+'/prepare?event='+event_name+'&wf='+wf_id;
                         },
                         createWorkflowUrl({wf_id}) {
                             return me.url_base + (that.contextId==wf_id ? '' : '?wf='+wf_id);
