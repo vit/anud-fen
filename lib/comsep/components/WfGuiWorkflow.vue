@@ -3,7 +3,7 @@
         <h1>Мой офис</h1>
 
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
-            <div v-if="qa.name=='_workflow_data' && qa.result.ancestors.length > 0" style="border: thin solid red; padding: 10px;">
+            <div v-if="qa.name=='_workflow_data' && qa.result.ancestors.length > 0" style="-border: thin solid red; padding: 10px;">
                 <b>Иерархия</b>:
                     <span v-for="id in (qa.result.ancestors || [])" :key="id">
                         <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
@@ -13,7 +13,7 @@
                 {{qa.result}} -->
             </div>
 
-            <div v-if="qa.name=='_what_can_i_do'" style="border: thin solid red; padding: 10px;">
+            <div v-if="qa.name=='_what_can_i_do'" style="-border: thin solid red; padding: 10px;">
                 <h3>Что тут можно сделать</h3>
                 <ul style="-margin-left: 20px; -list-style-type: disc;" class="wf-events-list">
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" sstyle="margin-bottom: 10px;" class="wf-event-item">
@@ -40,7 +40,7 @@
                 </ul>
             </div>
 
-            <div v-if="qa.name=='_my_workflows' && qa.result.items.length>0" style="border: thin solid red; padding: 10px;">
+            <div v-if="qa.name=='_my_workflows' && qa.result.items.length>0" style="-border: thin solid red; padding: 10px;">
                 <h3>Мои текущие дела</h3>
                 <ul class="wf-events-list">
                     <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;" class="wf-event-item">
@@ -55,7 +55,7 @@
                 </ul>
             </div>
 
-            <div v-if="qa.name=='_editor_workflows' && qa.result.items.length>0" style="border: thin solid red; padding: 10px;">
+            <div v-if="qa.name=='_editor_workflows' && qa.result.items.length>0" style="-border: thin solid red; padding: 10px;">
                 <h3>Дела редактора</h3>
                 <ul class="wf-events-list">
                     <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;" class="wf-event-item">

@@ -41,12 +41,8 @@ export default {
         };
     },
     computed: {
-//        contextId() { return this.$store.state.workflow.currentContext.id; },
-//        myId() { return this.$store.getters['user/id']; },
         event_name() { return this.$route.query.event },
         role_name() { return 'user' },
-
-
     },
 }
 </script>

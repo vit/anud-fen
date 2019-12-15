@@ -38,10 +38,8 @@ export default {
         };
     },
     computed: {
-        contextId() { return this.$store.state.workflow.currentContext.id; },
-//        wf_id() { return this.$route.query.wf || this.$store.state.workflow.currentContext.id; },
+        contextId() { return this.$store.getters['workflow/currentContextId']; },
         myId() { return this.$store.getters['user/id']; },
-//        url_base() { return "/journal/" }
     },
 }
 

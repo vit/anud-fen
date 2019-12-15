@@ -23,15 +23,12 @@ export default {
                 const me = {
                     helpers: {
                         createPrepareEventUrl({event_name}) {
-//                            return me.url_base+'/new?event='+event_name;
                             return me.url_base+'/prepare?event='+event_name;
                         },
                         createWorkflowUrl({wf_id}) {
                             return me.url_base + (that.contextId==wf_id ? '' : '?wf='+wf_id);
-//                            return me.url_base + (me.contextId==wf_id ? '' : '?wf='+wf_id);
                         }
                     },
-//                    url_base: '/event/icins-2020/my',
                     url_base: that.$store.getters['wp/getCurrentComsepContextPath']+'my',
                     lang: 'ru',
                     office_context: that.$store.state.workflow.currentContext
@@ -41,11 +38,8 @@ export default {
         };
     },
     computed: {
-
-        contextId() { return this.$store.state.workflow.currentContext.id; },
-//        wf_id() { return this.$route.query.wf || this.$store.state.workflow.currentContext.id; },
+        contextId() { return this.$store.getters['workflow/currentContextId']; },
         myId() { return this.$store.getters['user/id']; },
-//        url_base() { return "/journal/" }
     },
 }
 
