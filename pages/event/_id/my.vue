@@ -5,8 +5,8 @@
             :office_config="office_config"
             :ccontextId="contextId"
             :wf_id="wf_id"
-            :myId="myId"
-            :jwt_token="$store.state.user.jwt"
+            mmyId="myId"
+            :jwt_token="jwt_token"
 
             :event_name="event_name"
             :role_name="role_name"
@@ -43,9 +43,10 @@ export default {
         };
     },
     computed: {
+        jwt_token() { return this.$store.state.user.jwt },
         contextId() { return this.$store.getters['workflow/currentContextId']; },
         wf_id() { return this.$route.query.wf || this.contextId },
-        myId() { return this.$store.getters['user/id']; },
+//        myId() { return this.$store.getters['user/id']; },
         event_name() { return this.$route.query.event },
         role_name() { return 'user' },
     },

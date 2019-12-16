@@ -2,10 +2,11 @@
 
     <div cclass="width-container">
         <WfGuiEvent
-            v-if="myId"
+            v-if="jwt_token"
+            vv-if="myId"
             :wf_id="wf_id"
             :return_wf_id="wf_id"
-            :user_id="myId"
+            uuser_id="myId"
             :role_name="role_name"
             :office_config="office_config"
             :jwt_token="jwt_token"
@@ -34,7 +35,7 @@ export default {
         'return_wf_id',
         'event_name',
         'role_name',
-        'myId',
+//        'myId',
         'jwt_token'
     ],
     data () {

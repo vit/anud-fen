@@ -4,7 +4,7 @@
         <WfGuiWorkflow
             v-if="wf_id"
             :wf_id="wf_id"
-            :user_id="myId"
+            uuser_id="myId"
             uuser_role="editor"
             :user_role="role_name"
             :office_config="office_config"
@@ -29,7 +29,7 @@ export default {
         'wf_id',
 //        'event_name',
         'role_name',
-        'myId',
+//        'myId',
         'jwt_token'
     ],
     data () {

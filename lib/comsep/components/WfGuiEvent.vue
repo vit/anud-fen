@@ -29,7 +29,7 @@ export default {
     props: [
         'jwt_token',
         'wf_id',
-        'user_id',
+//        'user_id',
         'role_name',
         'office_config',
 

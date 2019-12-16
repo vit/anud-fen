@@ -85,7 +85,7 @@ export default {
     props: [
         'jwt_token',
         'wf_id',
-        'user_id',
+//        'user_id',
         'user_role',
         'office_config',
         'queries'
