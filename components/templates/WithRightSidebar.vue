@@ -4,10 +4,10 @@
         <div class="main">
             <slot></slot>
         </div>
-        <div class="sidebar">
+        <div class="sidebar" v-if="show_sidebar">
             <div>
               <ul class="sidebar-menu">
-                <li class="menu-item" v-for="(item, index) in $store.getters['wp/getCurrentSidebarMenu']" :key="index">
+                <li class="menu-item" v-for="(item, index) in sidebar_menu" :key="index">
                   <nuxt-link class="" :to="item.url" :exact="['/', ''].indexOf( item.url )>=0">
                     {{item.title}} <fa-icon icon="chevron-down" v-if="item.children.length>0" />
                   </nuxt-link>
@@ -20,15 +20,15 @@
                   </ul>
                 </li>
 
-                <template v-if="!!$store.getters['wp/getEventData']">
+                <template v-if="event_data">
                   <h3 class='menu-subheader'>Даты</h3>
                   <li class="menu-item-incut">
                     <span class="menu-text">
-                      <b style="color: red;" v-if="$store.getters['wp/getEventData'].startDateString==$store.getters['wp/getEventData'].endDateString">
-                          {{ $store.getters['wp/getEventData'].startDateString }}
+                      <b style="color: red;" v-if="event_data.startDateString==event_data.endDateString">
+                          {{ event_data.startDateString }}
                       </b>
                       <b style="color: red;" v-else>
-                          {{ $store.getters['wp/getEventData'].startDateString }}&mdash;{{ $store.getters['wp/getEventData'].endDateString }}
+                          {{ event_data.startDateString }}&mdash;{{ event_data.endDateString }}
                       </b>
                       (проведение)
                     </span>
@@ -39,20 +39,11 @@
               </ul>
             </div>
 
-            <template v-if="$store.getters['wp/getCurrentComsepContextName']">
+            <template v-if="context_name">
               <JournalSidebar v-if="$store.getters['wp/getCurrentComsepContextName']=='gn'" />
               <LibrarySidebar v-else-if="$store.getters['wp/getCurrentComsepContextName']=='lib'" />
               <ConferenceSidebar v-else />
             </template>
-
-            <!--hr>
-            <div>
-              {{$store.getters['wp/getCurrentComsepContextName']}} | {{$store.getters['wp/getCurrentComsepContextPath']}}
-            </div>
-            <hr>
-            <div>
-              %%{{$store.state.workflow.currentContext}}%%
-            </div-->
 
             <!--hr>
             <div style="border: thin solid red; height: 150px; overflow-y: scroll; overflow-x: wrap; overflow-wrap: break-word; margin-bottom: 15px; padding: 5px;">
@@ -63,10 +54,6 @@
               <hr>
             </div-->
 
-            <!--div
-              v-if="$store.state.wp.page_data && $store.state.wp.page_data.path_meta && $store.state.wp.page_data.path_meta.sidebar_rendered"
-              v-html="$store.state.wp.page_data.path_meta.sidebar_rendered"
-            ></div-->
         </div>
     </div>
 </template>
@@ -84,6 +71,21 @@ export default {
       LibrarySidebar,
       ConferenceSidebar
     },
+    computed: {
+      sidebar_menu() {
+        const menu = this.$store.getters['wp/getCurrentSidebarMenu'];
+        return menu && Array.isArray(menu) && menu.length>0 ? menu : null;
+      },
+      event_data() {
+        return this.$store.getters['wp/getEventData']
+      },
+      context_name() {
+        return this.$store.getters['wp/getCurrentComsepContextName']
+      },
+      show_sidebar() {
+        return this.sidebar_menu || this.event_data || this.context_name;
+      }
+    }
 }
 </script>
 
