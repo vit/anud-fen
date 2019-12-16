@@ -62,7 +62,7 @@ export default {
                 ],
                 links: [
                     {
-                        url: 'login' + (this.after_path ? '?after_path='+this.after_path : ''),
+                        url: 'login' + (this.after_path ? '?after_path='+encodeURIComponent(this.after_path) : ''),
                         label: 'Уже есть аккаунт!',
                     }
                 ]

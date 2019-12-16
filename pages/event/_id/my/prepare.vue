@@ -2,7 +2,7 @@
 
     <div cclass="width-container">
         <WfGuiEvent
-            v-if="jwt_token"
+            vvv-if="jwt_token"
             vv-if="myId"
             :wf_id="wf_id"
             :return_wf_id="wf_id"
@@ -13,9 +13,9 @@
 
             :event_name='event_name'
         ></WfGuiEvent>
-            <div v-else>
+            <!--div v-else>
                 Вы не можете работать с этой формой, поскольку не вошли в систему
-            </div>
+            </div-->
     </div>
 
 </template>
@@ -42,11 +42,11 @@ export default {
         return {
         };
     },
-    computed: {
+//    computed: {
 //        wf_id() { return this.$route.query.wf || this.contextId },
 //        event_name() { return this.$route.query.event },
 //        role_name() { return 'user' },
-    },
+//    },
 }
 </script>
 

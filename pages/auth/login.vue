@@ -58,7 +58,7 @@ export default {
             return [
                 {
 //                    url: 'register',
-                    url: 'register' + (this.after_path ? '?after_path='+this.after_path : ''),
+                    url: 'register' + (this.after_path ? '?after_path='+encodeURIComponent(this.after_path) : ''),
                     label: 'Еще нет аккаунта?',
                 }
             ]

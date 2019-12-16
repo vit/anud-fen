@@ -147,7 +147,8 @@ export default {
       return this.$store.state.wp.menu_data_2;
     },
     logon_link() {
-      return '/auth/login?after_path='+this.$route.fullPath;
+//      return '/auth/login?after_path='+this.$route.fullPath;
+      return '/auth/login?after_path='+encodeURIComponent(this.$route.fullPath);
     }
   },
   methods: {

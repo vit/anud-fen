@@ -8,9 +8,6 @@
                     <span v-for="id in (qa.result.ancestors || [])" :key="id">
                         <nuxt-link :to="office_config.helpers.createWorkflowUrl({wf_id: id})">{{id}}</nuxt-link> &gt;
                     </span>
-
-                <!--h3>This workflow data</h3>
-                {{qa.result}} -->
             </div>
 
             <div v-if="qa.name=='_what_can_i_do'" style="-border: thin solid red; padding: 10px;">

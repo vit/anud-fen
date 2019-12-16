@@ -2,6 +2,7 @@
     <Page>
     <div cclass="width-container">
         <nuxt-child
+            v-if="jwt_token"
             :office_config="office_config"
             :ccontextId="contextId"
             :wf_id="wf_id"
@@ -11,6 +12,9 @@
             :event_name="event_name"
             :role_name="role_name"
         />
+            <div v-else>
+                Вы не можете работать с этой формой, поскольку не вошли в систему
+            </div>
     </div>
     </Page>
 </template>
