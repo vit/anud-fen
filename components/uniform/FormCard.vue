@@ -103,7 +103,7 @@ export default {
             return this.formDescr ? this.formDescr.buttons : [];
         },
         links() {
-            return this.formDescr ? this.formDescr.links : [];
+            return this.formDescr && this.formDescr.links && Array.isArray(this.formDescr.links) ? this.formDescr.links : [];
         },
         formData() {
             return this.formDescr ? this.formDescr.data : [];

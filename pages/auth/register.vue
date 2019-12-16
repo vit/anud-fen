@@ -1,12 +1,10 @@
 <template>
-    <!--div class="width-container"-->
     <Page only_not_logged=true>
         <FormCard
             :formDescr="formDescr"
         >
         </FormCard>
     </Page>
-    <!--/div-->
 </template>
 
 <script>
@@ -15,69 +13,79 @@ import Page from '~/components/Page'
 import FormCard from '~/components/uniform/FormCard'
 
 export default {
-  name: 'LoginForm',
-  components: {
-      Page,
-      FormCard
-  },
-  props: {
-  },
-  data() {
-    return {
-        formData: {
-            email: '',
-            password: '',
-            repeat_password: '',
-            rememberMe: true,
-        }
-    };
-  },
-  computed: {
-    ...mapGetters('user', {
-//      userFullName: 'fullName',
-//      userInitials: 'initials',
-    }),
-
-    formDescr() {
+    name: 'LoginForm',
+    components: {
+        Page,
+        FormCard
+    },
+    props: {
+    },
+    data() {
         return {
-            title: 'Регистрация',
-            onSubmit: this.onSubmit, 
-            data: this.formData,
-            fields: [
-                {name: 'lname', type: 'text', label: 'Фамилия', placeholder: 'Ваша фамилия'},
-                {name: 'fname', type: 'text', label: 'Имя', placeholder: 'Ваше имя'},
-                {name: 'mname', type: 'text', label: 'Отчество', placeholder: 'Ваше отчество'},
-                {name: 'email', type: 'email', label: 'Email', placeholder: 'Ваш email'},
-                {name: 'password', type: 'password', label: 'Пароль', placeholder: 'Задайте пароль'},
-                {name: 'repeat_password', type: 'password', label: 'Повторить пароль', placeholder: 'Повторите пароль'},
-    //            {name: 'rememberMe', type: 'checkbox', label: 'Запомнить меня'},
-            ],
-            buttons: [
-                {
-                    name: 'submit',
-                    type: 'submit',
-                    style: 'default',
-                    label: 'Зарегистрироваться',
-                    //action: this.onSubmit
-                }
-            ],
-            links: [
-                {
-                    url: 'login',
-                    label: 'Уже есть аккаунт!',
-                }
-            ]
-        }
-    }
+            formData: {
+                email: '',
+                password: '',
+                repeat_password: '',
+                rememberMe: true,
+            }
+        };
+    },
+    computed: {
+        ...mapGetters('user', {
+            userId: 'id',
+//            userInitials: 'initials',
+        }),
+        after_path() { return this.$route.query.after_path },
 
-  },
+        formDescr() {
+            return {
+                title: 'Регистрация',
+                onSubmit: this.onSubmit, 
+                data: this.formData,
+                fields: [
+                    {name: 'lname', type: 'text', label: 'Фамилия', placeholder: 'Ваша фамилия'},
+                    {name: 'fname', type: 'text', label: 'Имя', placeholder: 'Ваше имя'},
+                    {name: 'mname', type: 'text', label: 'Отчество', placeholder: 'Ваше отчество'},
+                    {name: 'email', type: 'email', label: 'Email', placeholder: 'Ваш email'},
+                    {name: 'password', type: 'password', label: 'Пароль', placeholder: 'Задайте пароль'},
+                    {name: 'repeat_password', type: 'password', label: 'Повторить пароль', placeholder: 'Повторите пароль'},
+        //            {name: 'rememberMe', type: 'checkbox', label: 'Запомнить меня'},
+                ],
+                buttons: [
+                    {
+                        name: 'submit',
+                        type: 'submit',
+                        style: 'default',
+                        label: 'Зарегистрироваться',
+                        //action: this.onSubmit
+                    }
+                ],
+                links: [
+                    {
+                        url: 'login' + (this.after_path ? '?after_path='+this.after_path : ''),
+                        label: 'Уже есть аккаунт!',
+                    }
+                ]
+            }
+        }
+    },
     methods: {
         onSubmit() {
-            console.log("onSubmit()", this.formData);
+//            console.log("onSubmit()", this.formData);
             this.$store.dispatch('user/register', this.formData);
         }
     },
-
+    watch: {
+        userId(newValue, oldValue) {
+//            console.log(`userId: Updating from ${oldValue} to ${newValue}`);
+            if(newValue) {
+                if(this.after_path)
+                    this.$router.push(this.after_path);
+                else
+                    this.$router.push('/');
+            }
+        },
+    }
 }
 </script>
 

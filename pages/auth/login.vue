@@ -1,60 +1,17 @@
 <template>
-    <!--div class="width-container"-->
     <Page only_not_logged=true>
         <FormCard
             :formDescr="{
                 title: 'Вход',
                 fields: fields,
                 buttons,
-                links,
+                links: links,
                 onSubmit, 
                 data: formData,
             }"
         >
         </FormCard>
-        <!--hr>
-    <div class="form-container">
-      <form
-        action=""
-        @submit.stop.prevent="onSubmit"
-        novalidate
-        >
-        <div class="c-card" style="width: auto">
-            <header class="c-card-header">
-                <p class="c-card-header-title">Вход</p>
-            </header>
-            <section class="c-card-content">
-                <template v-for="field of fields">
-                    <b-field v-if="['email', 'password'].includes(field.type)" :label="field.label" :key="field.name">
-                        <b-input
-                            :useHtml5Validation="false"
-                            :type="field.type"
-                            :name="field.name"
-                            v-model="formData[field.name]"
-                            :password-reveal="field.type=='password'"
-                            :placeholder="field.placeholder || field.label"
-                            :ref="field.type"
-                            autofocus
-                            rrequired
-                        >
-                        </b-input>
-                    </b-field>
-                    <b-checkbox
-                        v-if="['checkbox'].includes(field.type)"
-                        :name="field.name"
-                        v-model="formData[field.name]"
-                        :key="field.name"
-                    >{{field.label}}</b-checkbox>
-                </template>
-            </section>
-            <footer class="c-card-footer">
-                <button type="submit" class="button is-primary c-card-footer-item is-outlined" ttype="button" cclick="login">Войти</button>
-            </footer>
-        </div>
-      </form>  
-    </div-->
     </Page>
-    <!--/div-->
 </template>
 
 <script>
@@ -89,26 +46,41 @@ export default {
                 //action: this.onSubmit
             }
         ],
-        links: [
-            {
-                url: 'register',
-//                label: 'Зарегистрироваться',
-                label: 'Еще нет аккаунта?',
-            }
-        ]
     };
   },
-  computed: {
-    ...mapGetters('user', {
-//      userFullName: 'fullName',
-//      userInitials: 'initials',
-    }),
-  },
+    computed: {
+        ...mapGetters('user', {
+            userId: 'id',
+//            userInitials: 'initials',
+        }),
+        after_path() { return this.$route.query.after_path },
+        links() {
+            return [
+                {
+//                    url: 'register',
+                    url: 'register' + (this.after_path ? '?after_path='+this.after_path : ''),
+                    label: 'Еще нет аккаунта?',
+                }
+            ]
+        },
+    },
     methods: {
         onSubmit() {
             this.$store.dispatch('user/login', this.formData);
-        }
+        },
     },
+
+    watch: {
+        userId(newValue, oldValue) {
+            console.log(`userId: Updating from ${oldValue} to ${newValue}`);
+            if(newValue) {
+                if(this.after_path)
+                    this.$router.push(this.after_path);
+                else
+                    this.$router.push('/');
+            }
+        },
+    }
 
 }
 </script>

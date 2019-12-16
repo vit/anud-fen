@@ -81,7 +81,7 @@
         </div-->
         <ul class="menu menu-2 menu-my" v-else>
           <li class="menu-item">
-            <nuxt-link to="/auth/login" icon-left="user" sstyle="margin: 5px;"><fa-icon icon="sign-in-alt" /> Войти</nuxt-link>
+            <nuxt-link :to="logon_link" icon-left="user" sstyle="margin: 5px;"><fa-icon icon="sign-in-alt" /> Войти</nuxt-link>
           </li>
         </ul>
 
@@ -145,6 +145,9 @@ export default {
     },
     menu_data_2() {
       return this.$store.state.wp.menu_data_2;
+    },
+    logon_link() {
+      return '/auth/login?after_path='+this.$route.fullPath;
     }
   },
   methods: {
@@ -170,40 +173,8 @@ export default {
       });
       return menu_data;
     },
-/*
-    openLoginDialog() {
-      this.$modal.open({
-        component: LoginModal,
-        hasModalCard: true,
-        parent: this
-      })
-    }
-*/
   },
   created() {
-//  mounted() {
-//    axios1.get('https://v2.acanud.ru/wp-json/anud/v1/menu/'+'fe_top_menu_1').then((response) => {
-//      this.menu_data_1 = this.parse_menu_response( response );
-//    });
-//    axios1.get('https://v2.acanud.ru/wp-json/anud/v1/menu/'+'fe_top_menu_2').then((response) => {
-//      this.menu_data_2 = this.parse_menu_response( response );
-//    });
-
-/*
-    try {
-//        if(!isServer && !!window) {
-        if(!process.server && !!window) {
-            const token = window.localStorage.getItem("jwt-token")
-            if(token)
-                this.$store.commit('user/setLoggedUserJWT', token)
-            this.$store.commit('user/incCounter')
-        }
-    }
-    catch(e) {
-        console.log(e);
-    }
-*/
-
   },
 
 }
