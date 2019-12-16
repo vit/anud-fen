@@ -3,8 +3,13 @@
     <div cclass="width-container">
         <nuxt-child
             :office_config="office_config"
-            :contextId="contextId"
+            :ccontextId="contextId"
+            :wf_id="wf_id"
             :myId="myId"
+            :jwt_token="$store.state.user.jwt"
+
+            :event_name="event_name"
+            :role_name="role_name"
         />
     </div>
     </Page>
@@ -22,8 +27,8 @@ export default {
             office_config: ((that) => {
                 const me = {
                     helpers: {
-                        createPrepareEventUrl({event_name}) {
-                            return me.url_base+'/prepare?event='+event_name;
+                        createPrepareEventUrl({event_name, wf_id}) {
+                            return me.url_base+'/prepare?event='+event_name+'&wf='+wf_id;
                         },
                         createWorkflowUrl({wf_id}) {
                             return me.url_base + (that.contextId==wf_id ? '' : '?wf='+wf_id);
@@ -39,7 +44,10 @@ export default {
     },
     computed: {
         contextId() { return this.$store.getters['workflow/currentContextId']; },
+        wf_id() { return this.$route.query.wf || this.contextId },
         myId() { return this.$store.getters['user/id']; },
+        event_name() { return this.$route.query.event },
+        role_name() { return 'user' },
     },
 }
 

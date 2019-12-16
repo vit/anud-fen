@@ -2,20 +2,15 @@
 
     <div cclass="width-container">
         <WfGuiEvent
-            vv-if="$store.state.user.jwt"
             v-if="myId"
-            :wf_id="contextId"
-            :return_wf_id="contextId"
+            :wf_id="wf_id"
+            :return_wf_id="wf_id"
             :user_id="myId"
             :role_name="role_name"
             :office_config="office_config"
-            :jwt_token="$store.state.user.jwt"
+            :jwt_token="jwt_token"
 
             :event_name='event_name'
-            fform_name="form_name"
-
-            llang='ru'
-
         ></WfGuiEvent>
             <div v-else>
                 Вы не можете работать с этой формой, поскольку не вошли в систему
@@ -34,19 +29,22 @@ export default {
     },
     props: [
         'office_config',
-        'contextId',
+//        'contextId',
+        'wf_id',
         'return_wf_id',
-        'myId'
+        'event_name',
+        'role_name',
+        'myId',
+        'jwt_token'
     ],
     data () {
         return {
         };
     },
     computed: {
-        event_name() { return this.$route.query.event },
-        role_name() { return 'user' },
-
-
+//        wf_id() { return this.$route.query.wf || this.contextId },
+//        event_name() { return this.$route.query.event },
+//        role_name() { return 'user' },
     },
 }
 </script>

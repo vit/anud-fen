@@ -5,11 +5,11 @@
             v-if="wf_id"
             :wf_id="wf_id"
             :user_id="myId"
-            uuser_role="user"
-            user_role="editor"
+            uuser_role="editor"
+            :user_role="role_name"
             :office_config="office_config"
             :queries="queries"
-            :jwt_token="$store.state.user.jwt"
+            :jwt_token="jwt_token"
         ></WfGuiWorkflow>
     </div>
 
@@ -25,22 +25,25 @@ export default {
     },
     props: [
         'office_config',
-        'contextId',
-        'myId'
+//        'contextId',
+        'wf_id',
+//        'event_name',
+        'role_name',
+        'myId',
+        'jwt_token'
     ],
     data () {
         return {
             queries: [
                 '_workflow_data',
                 '_what_can_i_do',
-//                '_my_workflows'
                 '_editor_workflows'
             ],
         };
     },
-    computed: {
-        wf_id() { return this.$route.query.wf || this.contextId; },
-    },
+//    computed: {
+//        wf_id() { return this.$route.query.wf || this.contextId; },
+//    },
 }
 
 </script>

@@ -3,8 +3,13 @@
     <div cclass="width-container">
         <nuxt-child
             :office_config="office_config"
-            :contextId="contextId"
+            :ccontextId="contextId"
+            :wf_id="wf_id"
             :myId="myId"
+            :jwt_token="$store.state.user.jwt"
+
+            :event_name="event_name"
+            :role_name="role_name"
         />
     </div>
     </Page>
@@ -39,7 +44,14 @@ export default {
     },
     computed: {
         contextId() { return this.$store.getters['workflow/currentContextId']; },
+        wf_id() { return this.$route.query.wf || this.contextId },
         myId() { return this.$store.getters['user/id']; },
+        event_name() { return this.$route.query.event },
+        role_name() { return 'editor' },
+
+//        contextId() { return this.$store.getters['workflow/currentContextId']; },
+//        wf_id() { return this.$route.query.wf || this.contextId },
+//        myId() { return this.$store.getters['user/id']; },
     },
 }
 
