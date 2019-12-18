@@ -1,6 +1,6 @@
 <template>
     <div sstyle="border: thin solid green;">
-        <h1>Workflow Prepare Event</h1>
+        <h1 v-if="app_config">{{app_config.office_title}}</h1>
 
             <EditEventForm
                 :form_meta="form_meta"
@@ -29,8 +29,9 @@ export default {
     props: [
         'jwt_token',
         'wf_id',
-        'role_name',
+//        'role_name',
         'office_config',
+        'app_config',
 
         'event_name',
 //        'form_name',
@@ -62,6 +63,10 @@ export default {
         lang() {
           return this.office_config.lang;  
         },
+        role_name() {
+            return this.app_config ? this.app_config.role_name : null
+        },
+
         event_descr() {
             const roles = this.office_config.office_context.schema.roles;
             const role_data = roles[this.role_name];

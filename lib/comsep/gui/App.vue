@@ -4,16 +4,18 @@
         <WfGuiWorkflow
             v-if="page_type=='workflow'"
             :wf_id="wf_id"
-            :user_role="role_name"
+            rrole_name="role_name"
             :office_config="office_config"
-            :queries="queries"
+            :app_config="app_config"
+            qqueries="queries"
             :jwt_token="jwt_token"
         />
         <WfGuiEvent
             v-else-if="page_type=='event'"
             :wf_id="wf_id"
-            :role_name="role_name"
+            rrole_name="role_name"
             :office_config="office_config"
+            :app_config="app_config"
             :jwt_token="jwt_token"
 
             :event_name='event_name'
@@ -67,6 +69,7 @@ export default {
             },
             apps_map: {
                 'journal.my': {
+                    office_title: 'Мой офис',
                     role_name: 'user',
                     queries: [
                         '_workflow_data',
@@ -75,6 +78,7 @@ export default {
                     ],
                 },
                 'journal.editor': {
+                    office_title: 'Офис редактора',
                     role_name: 'editor',
                     queries: [
                         '_workflow_data',
@@ -83,6 +87,7 @@ export default {
                     ],
                 },
                 'conf.my': {
+                    office_title: 'Мой офис',
                     role_name: 'user',
                     queries: [
                         '_workflow_data',
@@ -91,6 +96,7 @@ export default {
                     ],
                 },
                 'conf.editor': {
+                    office_title: 'Офис редактора',
                     role_name: 'editor',
                     queries: [
                         '_workflow_data',
@@ -115,12 +121,15 @@ export default {
         page_type() {
             return this.pages_map[this.rest_path] ? this.pages_map[this.rest_path].type : '-'
         },
-        role_name() {
-            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].role_name : null
-        },
-        queries() {
-            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].queries : null
-        },
+//        role_name() {
+//            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].role_name : null
+//        },
+//        queries() {
+//            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].queries : null
+//        },
+        app_config() {
+            return this.apps_map[this.app_name]
+        }
     },
 }
 

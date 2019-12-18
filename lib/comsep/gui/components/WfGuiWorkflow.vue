@@ -1,6 +1,6 @@
 <template>
     <div style="border: thin solid green;">
-        <h1>Мой офис</h1>
+        <h1 v-if="app_config">{{app_config.office_title}}</h1>
 
         <div v-for="(qa, ind) in query_answer" v-if="qa && qa.name" :key="ind">
             <div v-if="qa.name=='_workflow_data' && qa.result.ancestors.length > 0" style="-border: thin solid red; padding: 10px;">
@@ -16,7 +16,6 @@
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" sstyle="margin-bottom: 10px;" class="wf-event-item">
                         <span v-if="v.available">
                             <div style="text-align: center;">
-                                <!--nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name})">{{event_title(v, event_name)}}</nuxt-link-->
                                 <nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name, wf_id})">{{event_title(v, event_name)}}</nuxt-link>
                             </div>
                             <template v-if="my_drafts_by_event[event_name]">
@@ -83,9 +82,10 @@ export default {
     props: [
         'jwt_token',
         'wf_id',
-        'user_role',
+//        'role_name',
         'office_config',
-        'queries'
+        'app_config',
+//        'queries'
     ],
     data () {
         return {
@@ -100,18 +100,17 @@ export default {
                     title: "Поданная заявка на участие"
                 },
             },
-/*
-            queries: [
-                '_workflow_data',
-                '_what_can_i_do',
-                '_my_workflows'
-            ],
-*/
         };
     },
     computed: {
         lang() {
           return this.office_config.lang;  
+        },
+        role_name() {
+            return this.app_config ? this.app_config.role_name : null
+        },
+        queries() {
+            return this.app_config ? this.app_config.queries : null
         },
     },
     methods: {
@@ -123,7 +122,7 @@ export default {
                 proc: 'query',
                 args: {
                     meta: {
-                        role_name: this.user_role,
+                        role_name: this.role_name,
                         workflow_id: this.wf_id
                     },
                     query: this.queries,
@@ -143,7 +142,7 @@ export default {
                 model: 'EventForm',
                 proc: 'list_my_event_forms',
                 args: {form_meta: {
-                        role_name: this.user_role,
+                        role_name: this.role_name,
                     // where writes
                         workflow_id: this.wf_id,
                 //        event_name: this.event_name,
