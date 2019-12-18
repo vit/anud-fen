@@ -4,16 +4,13 @@
         <WfGuiWorkflow
             v-if="page_type=='workflow'"
             :wf_id="wf_id"
-            rrole_name="role_name"
             :office_config="office_config"
             :app_config="app_config"
-            qqueries="queries"
             :jwt_token="jwt_token"
         />
         <WfGuiEvent
             v-else-if="page_type=='event'"
             :wf_id="wf_id"
-            rrole_name="role_name"
             :office_config="office_config"
             :app_config="app_config"
             :jwt_token="jwt_token"
@@ -121,12 +118,6 @@ export default {
         page_type() {
             return this.pages_map[this.rest_path] ? this.pages_map[this.rest_path].type : '-'
         },
-//        role_name() {
-//            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].role_name : null
-//        },
-//        queries() {
-//            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].queries : null
-//        },
         app_config() {
             return this.apps_map[this.app_name]
         }
