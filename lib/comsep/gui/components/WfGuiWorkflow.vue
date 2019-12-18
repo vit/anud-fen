@@ -73,7 +73,8 @@
 
 <script>
 
-import API from '../api'
+//import API from '../api'
+import API from '../../api'
 const api = API();
 
 export default {

@@ -2,8 +2,8 @@
     <Page>
         <App
             v-if="jwt_token"
-            app_name='conf.my'
-            role_path='my'
+            app_name='journal.editor'
+            role_path='editor'
         />
         <div v-else>
             Пожалуйста войдите в систему, чтобы начать работу

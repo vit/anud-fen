@@ -3,7 +3,6 @@
     <div>
         <WfGuiWorkflow
             v-if="page_type=='workflow'"
-            vvv-if="wf_id"
             :wf_id="wf_id"
             :user_role="role_name"
             :office_config="office_config"
@@ -13,7 +12,6 @@
         <WfGuiEvent
             v-else-if="page_type=='event'"
             :wf_id="wf_id"
-            :return_wf_id="wf_id"
             :role_name="role_name"
             :office_config="office_config"
             :jwt_token="jwt_token"
@@ -32,8 +30,8 @@
 <script>
 //import Page from '~/components/Page'
 
-import WfGuiWorkflow from '~/lib/comsep/components/WfGuiWorkflow'
-import WfGuiEvent from '~/lib/comsep/components/WfGuiEvent'
+import WfGuiWorkflow from './components/WfGuiWorkflow'
+import WfGuiEvent from './components/WfGuiEvent'
 
 
 export default {
@@ -43,7 +41,9 @@ export default {
         WfGuiEvent
     },
     props: [
-        'name'
+        'app_name',
+        'role_path'
+        
     ],
     data () {
         return {
@@ -62,14 +62,43 @@ export default {
                 }
                 return me;
             })(this),
-            queries: [
-                '_workflow_data',
-                '_what_can_i_do',
-                '_my_workflows'
-            ],
             pages_map: {
                 '': {type: 'workflow'},
                 '/prepare': {type: 'event'},
+            },
+            apps_map: {
+                'journal.my': {
+                    role_name: 'user',
+                    queries: [
+                        '_workflow_data',
+                        '_what_can_i_do',
+                        '_my_workflows'
+                    ],
+                },
+                'journal.editor': {
+                    role_name: 'editor',
+                    queries: [
+                        '_workflow_data',
+                        '_what_can_i_do',
+                        '_editor_workflows'
+                    ],
+                },
+                'conf.my': {
+                    role_name: 'user',
+                    queries: [
+                        '_workflow_data',
+                        '_what_can_i_do',
+                        '_my_workflows'
+                    ],
+                },
+                'conf.editor': {
+                    role_name: 'editor',
+                    queries: [
+                        '_workflow_data',
+                        '_what_can_i_do',
+                        '_editor_workflows'
+                    ],
+                },
             }
         };
     },
@@ -79,8 +108,6 @@ export default {
         wf_id() { return this.$route.query.wf || this.contextId },
 //        myId() { return this.$store.getters['user/id']; },
         event_name() { return this.$route.query.event },
-        role_name() { return 'user' },
-        role_path() { return 'my' },
         url_base() { return this.$store.getters['wp/getCurrentComsepContextPath']+this.role_path },
         rest_path() {
             const current_path = this.$route.path;
@@ -88,7 +115,13 @@ export default {
         },
         page_type() {
             return this.pages_map[this.rest_path] ? this.pages_map[this.rest_path].type : '-'
-        }
+        },
+        role_name() {
+            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].role_name : null
+        },
+        queries() {
+            return this.apps_map[this.app_name] ? this.apps_map[this.app_name].queries : null
+        },
     },
 }
 

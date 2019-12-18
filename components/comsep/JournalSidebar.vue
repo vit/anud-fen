@@ -1,10 +1,17 @@
 <template>
     <div>
         <ul class="sidebar-menu">
-            <h3 class='menu-subheader'>Офис автора</h3>
+            <!--h3 class='menu-subheader'>Офис автора</h3-->
+
+            <li class="menu-item">
+                <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'my'">
+                    Мой офис
+                </nuxt-link>
+            </li>
+
             <li class="menu-item-incut">
                 <span class="menu-text">
-                    инструкции:
+                    инструкции автору:
                     <a href="https://gn.comsep.ru/docs/Rules_for_Authors.pdf" style="padding: 0;">англ</a> / <a href="https://gn.comsep.ru/docs/Rules_for_Authors_ru.pdf" style="padding: 0;">рус</a>
                 </span>
             </li>
@@ -15,7 +22,18 @@
                 </span>
             </li>
 
+            <hr>
             <li class="menu-item">
+                <nuxt-link class="not-exact" :to="$store.getters['wp/getCurrentComsepContextPath']+'editor'">
+                    Офис редактора
+                </nuxt-link>
+            </li>
+
+
+<hr>
+
+
+            <!--li class="menu-item">
                 <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'author'">
                     Мои статьи
                 </nuxt-link>
@@ -29,10 +47,10 @@
                 <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'author/archive'">
                     Мой архив
                 </nuxt-link>
-            </li>
+            </li-->
 
 
-            <h3 class='menu-subheader'>Офис рецензента</h3>
+            <!--h3 class='menu-subheader'>Офис рецензента</h3>
             <li class="menu-item-incut">
                 <span class="menu-text">
                     инструкции:
@@ -43,14 +61,14 @@
                 <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'reviewer'">
                     Мои рецензии
                 </nuxt-link>
-            </li>
+            </li-->
 
-            <h3 class='menu-subheader'>Офис редактора</h3>
+            <!--h3 class='menu-subheader'>Офис редактора</h3>
             <li class="menu-item">
                 <nuxt-link class="" :to="$store.getters['wp/getCurrentComsepContextPath']+'editor'">
                     Поданные статьи
                 </nuxt-link>
-            </li>
+            </li-->
         </ul>
     </div>
 </template>

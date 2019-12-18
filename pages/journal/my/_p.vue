@@ -2,7 +2,7 @@
     <Page>
         <App
             v-if="jwt_token"
-            app_name='conf.my'
+            app_name='journal.my'
             role_path='my'
         />
         <div v-else>

@@ -75,9 +75,6 @@ export default {
             const context = this.context;
             return context && context.forms && this.form_name ? context.forms[this.form_name] : null;
         },
-//        return_wf_id() {
-//            return this.wf_id;
-//        }
     },
     methods: {
         onExit(data) {
