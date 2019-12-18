@@ -43,7 +43,6 @@ export default {
     props: [
         'app_name',
         'role_path'
-        
     ],
     data () {
         return {
