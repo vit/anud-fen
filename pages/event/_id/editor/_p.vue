@@ -6,7 +6,7 @@
             role_path='editor'
         />
         <div v-else>
-            Пожалуйста войдите в систему, чтобы начать работу
+            Пожалуйста <nuxt-link :to="'/auth/login?after_path='+encodeURIComponent(this.$route.fullPath)">войдите в систему</nuxt-link>, чтобы начать работу
         </div>
     </Page>
 </template>
