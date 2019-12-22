@@ -16,7 +16,7 @@
                     <li v-for="[event_name, v] in Object.entries(qa.result.events || {})" :key="event_name" sstyle="margin-bottom: 10px;" class="wf-event-item">
                         <span v-if="v.available">
                             <div style="text-align: center;">
-                                <nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name, wf_id})">{{event_title(v, event_name)}}</nuxt-link>
+                                <nuxt-link class="button is-success iis-info iis-primary" :to="office_config.helpers.createPrepareEventUrl({event_name, wf_id, role_name})">{{event_title(v, event_name)}}</nuxt-link>
                             </div>
                             <template v-if="my_drafts_by_event[event_name]">
                                 <!--br/-->
@@ -66,6 +66,21 @@
                 </ul>
             </div>
 
+            <div v-if="qa.name=='_reviewer_workflows' && qa.result.items.length>0" style="-border: thin solid red; padding: 10px;">
+                <h3>Дела рецензента</h3>
+                <ul class="wf-events-list">
+                    <li v-for="[ind, wf] in Object.entries(qa.result.items)" :key="wf._id" style="margin-bottom: 10px;" class="wf-event-item">
+                        <span>
+                            <h4>{{wf_type(wf)}}</h4>
+                            <p>Название: <b>{{wf.title}}</b></p>
+                            <p>Состояние: <b>{{wf.state}}</b></p>
+                            <p><small>{{wf}}</small></p>
+                            <nuxt-link class="button is-info" :to="office_config.helpers.createWorkflowUrl({wf_id: wf._id, role_name: 'reviewer'})">Перейти</nuxt-link>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </template>
@@ -107,7 +122,8 @@ export default {
           return this.office_config.lang;  
         },
         role_name() {
-            return this.app_config ? this.app_config.role_name : null
+//            return this.app_config ? this.app_config.role_name : null
+            return this.$route.query.role ? this.$route.query.role : (this.app_config ? this.app_config.role_name : null)
         },
         queries() {
             return this.app_config ? this.app_config.queries : null

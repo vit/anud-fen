@@ -64,7 +64,8 @@ export default {
           return this.office_config.lang;  
         },
         role_name() {
-            return this.app_config ? this.app_config.role_name : null
+//            return this.app_config ? this.app_config.role_name : null
+            return this.$route.query.role ? this.$route.query.role : (this.app_config ? this.app_config.role_name : null)
         },
 
         event_descr() {

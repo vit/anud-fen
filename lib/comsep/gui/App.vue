@@ -48,11 +48,32 @@ export default {
             office_config: ((that) => {
                 const me = {
                     helpers: {
-                        createPrepareEventUrl({event_name, wf_id}) {
-                            return that.url_base+'/prepare?event='+event_name+'&wf='+wf_id;
+                        createPrepareEventUrl({event_name, wf_id, role_name}) {
+                            const params = {
+                                role: role_name,
+                                event: event_name,
+                                wf: wf_id
+                            };
+                            const query = Object.keys(params)
+                                .filter(k => params[k])
+                                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                                .join('&');
+                            return that.url_base + '/prepare?'+query
+//                            return that.url_base+'/prepare?event='+event_name+'&wf='+wf_id;
                         },
-                        createWorkflowUrl({wf_id}) {
-                            return that.url_base + (that.contextId==wf_id ? '' : '?wf='+wf_id);
+                        createWorkflowUrl({wf_id, role_name}) {
+                            const params = {
+                                role: role_name
+                            };
+                            if(that.contextId!=wf_id)
+                                params.wf=wf_id
+//                            let url = that.url_base + (that.contextId==wf_id ? '' : '?wf='+wf_id)
+
+                            const query = Object.keys(params)
+                                .filter(k => params[k])
+                                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                                .join('&');
+                            return that.url_base + (query && query.length>0 ? '?'+query : '')
                         }
                     },
                     lang: 'ru',
@@ -71,7 +92,7 @@ export default {
                     queries: [
                         '_workflow_data',
                         '_what_can_i_do',
-                        '_my_workflows'
+                        '_my_workflows',
                     ],
                 },
                 'journal.editor': {
@@ -89,7 +110,8 @@ export default {
                     queries: [
                         '_workflow_data',
                         '_what_can_i_do',
-                        '_my_workflows'
+                        '_my_workflows',
+                        '_reviewer_workflows'
                     ],
                 },
                 'conf.editor': {
